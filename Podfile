@@ -1,4 +1,4 @@
-platform :ios, '7.0'
+platform :ios, '7.1'
 pod 'MarqueeLabel','~> 1.2.2'
 pod 'MMDrawerController', '~> 0.5.1'
 pod 'ALAlertBanner', '~> 0.3.0'
