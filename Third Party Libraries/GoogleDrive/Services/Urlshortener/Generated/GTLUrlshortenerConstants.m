@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 
 #import "GTLUrlshortenerConstants.h"
 
 // Authorization scope
 NSString * const kGTLAuthScopeUrlshortener = @"https://www.googleapis.com/auth/urlshortener";
 
-// Projection
+// GTLQueryUrlshortener - Projection
 NSString * const kGTLUrlshortenerProjectionAnalyticsClicks     = @"ANALYTICS_CLICKS";
 NSString * const kGTLUrlshortenerProjectionAnalyticsTopStrings = @"ANALYTICS_TOP_STRINGS";
 NSString * const kGTLUrlshortenerProjectionFull                = @"FULL";

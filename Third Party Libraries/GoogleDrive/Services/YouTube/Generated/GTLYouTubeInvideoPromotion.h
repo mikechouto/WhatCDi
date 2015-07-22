@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeInvideoPromotion (0 custom class methods, 3 custom properties)
+//   GTLYouTubeInvideoPromotion (0 custom class methods, 4 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -53,13 +53,20 @@
 
 // The default temporal position within the video where the promoted item will
 // be displayed. Can be overriden by more specific timing in the item.
-@property (retain) GTLYouTubeInvideoTiming *defaultTiming;
+@property (nonatomic, retain) GTLYouTubeInvideoTiming *defaultTiming;
 
 // List of promoted items in decreasing priority.
-@property (retain) NSArray *items;  // of GTLYouTubePromotedItem
+@property (nonatomic, retain) NSArray *items;  // of GTLYouTubePromotedItem
 
 // The spatial position within the video where the promoted item will be
 // displayed.
-@property (retain) GTLYouTubeInvideoPosition *position;
+@property (nonatomic, retain) GTLYouTubeInvideoPosition *position;
+
+// Indicates whether the channel's promotional campaign uses "smart timing."
+// This feature attempts to show promotions at a point in the video when they
+// are more likely to be clicked and less likely to disrupt the viewing
+// experience. This feature also picks up a single promotion to show on each
+// video.
+@property (nonatomic, retain) NSNumber *useSmartTiming;  // boolValue
 
 @end

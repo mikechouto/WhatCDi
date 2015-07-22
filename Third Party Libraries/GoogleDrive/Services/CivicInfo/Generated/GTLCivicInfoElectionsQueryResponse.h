@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Google Civic Information API (civicinfo/us_v1)
+//   Google Civic Information API (civicinfo/v2)
 // Description:
 //   An API for accessing civic information.
 // Documentation:
@@ -46,9 +46,10 @@
 @interface GTLCivicInfoElectionsQueryResponse : GTLObject
 
 // A list of available elections
-@property (retain) NSArray *elections;  // of GTLCivicInfoElection
+@property (nonatomic, retain) NSArray *elections;  // of GTLCivicInfoElection
 
-// The kind, fixed to "civicinfo#electionsQueryResponse".
-@property (copy) NSString *kind;
+// Identifies what kind of resource this is. Value: the fixed string
+// "civicinfo#electionsQueryResponse".
+@property (nonatomic, copy) NSString *kind;
 
 @end

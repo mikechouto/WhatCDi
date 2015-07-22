@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/+/domains/
 // Classes:
-//   GTLPlusDomainsMedia (0 custom class methods, 17 custom properties)
+//   GTLPlusDomainsMedia (0 custom class methods, 18 custom properties)
 //   GTLPlusDomainsMediaAuthor (0 custom class methods, 4 custom properties)
 //   GTLPlusDomainsMediaExif (0 custom class methods, 1 custom properties)
 //   GTLPlusDomainsMediaAuthorImage (0 custom class methods, 1 custom properties)
@@ -41,23 +41,22 @@
 //
 
 @implementation GTLPlusDomainsMedia
-@dynamic author, displayName, ETag, exif, height, identifier, kind, mediaUrl,
-         published, sizeBytes, streams, summary, updated, url, videoDuration,
-         videoStatus, width;
+@dynamic author, displayName, ETag, exif, height, identifier, kind,
+         mediaCreatedTime, mediaUrl, published, sizeBytes, streams, summary,
+         updated, url, videoDuration, videoStatus, width;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLPlusDomainsVideostream class]
-                                forKey:@"streams"];
+  NSDictionary *map = @{
+    @"streams" : [GTLPlusDomainsVideostream class]
+  };
   return map;
 }
 
@@ -77,9 +76,9 @@
 @dynamic displayName, identifier, image, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 

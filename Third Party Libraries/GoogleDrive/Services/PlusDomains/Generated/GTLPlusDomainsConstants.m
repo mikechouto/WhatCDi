@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,10 @@ NSString * const kGTLAuthScopePlusDomainsPlusMediaUpload  = @"https://www.google
 NSString * const kGTLAuthScopePlusDomainsPlusProfilesRead = @"https://www.googleapis.com/auth/plus.profiles.read";
 NSString * const kGTLAuthScopePlusDomainsPlusStreamRead   = @"https://www.googleapis.com/auth/plus.stream.read";
 NSString * const kGTLAuthScopePlusDomainsPlusStreamWrite  = @"https://www.googleapis.com/auth/plus.stream.write";
+NSString * const kGTLAuthScopePlusDomainsUserinfoEmail    = @"https://www.googleapis.com/auth/userinfo.email";
+NSString * const kGTLAuthScopePlusDomainsUserinfoProfile  = @"https://www.googleapis.com/auth/userinfo.profile";
 
-// Collection
+// GTLQueryPlusDomains - Collection
 NSString * const kGTLPlusDomainsCollectionCircled   = @"circled";
 NSString * const kGTLPlusDomainsCollectionCloud     = @"cloud";
 NSString * const kGTLPlusDomainsCollectionPlusoners = @"plusoners";
@@ -46,10 +48,10 @@ NSString * const kGTLPlusDomainsCollectionResharers = @"resharers";
 NSString * const kGTLPlusDomainsCollectionSharedto  = @"sharedto";
 NSString * const kGTLPlusDomainsCollectionUser      = @"user";
 
-// OrderBy
+// GTLQueryPlusDomains - OrderBy
 NSString * const kGTLPlusDomainsOrderByAlphabetical = @"alphabetical";
 NSString * const kGTLPlusDomainsOrderByBest         = @"best";
 
-// SortOrder
+// GTLQueryPlusDomains - SortOrder
 NSString * const kGTLPlusDomainsSortOrderAscending  = @"ascending";
 NSString * const kGTLPlusDomainsSortOrderDescending = @"descending";

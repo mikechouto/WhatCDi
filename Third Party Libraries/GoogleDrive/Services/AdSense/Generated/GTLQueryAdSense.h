@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   AdSense Management API (adsense/v1.3)
+//   AdSense Management API (adsense/v1.4)
 // Description:
 //   Gives AdSense publishers access to their inventory and the ability to
 //   generate reports
 // Documentation:
 //   https://developers.google.com/adsense/management/
 // Classes:
-//   GTLQueryAdSense (34 custom class methods, 21 custom properties)
+//   GTLQueryAdSense (38 custom class methods, 22 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -42,33 +42,34 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
 // "accountId" has different types for some query methods; see the documentation
 // for the right type for each query method.
-@property (retain) id accountId;
-@property (copy) NSString *adClientId;
-@property (copy) NSString *adUnitId;
-@property (copy) NSString *currency;
-@property (copy) NSString *customChannelId;
-@property (retain) NSArray *dimension;  // of NSString
-@property (copy) NSString *endDate;
-@property (retain) NSArray *filter;  // of NSString
-@property (assign) BOOL includeInactive;
-@property (copy) NSString *locale;
-@property (assign) NSInteger maxResults;
-@property (retain) NSArray *metric;  // of NSString
-@property (copy) NSString *pageToken;
-@property (copy) NSString *savedAdStyleId;
-@property (copy) NSString *savedReportId;
-@property (retain) NSArray *sort;  // of NSString
-@property (copy) NSString *startDate;
-@property (assign) NSInteger startIndex;
-@property (assign) BOOL tree;
-@property (assign) BOOL useTimezoneReporting;
+@property (nonatomic, retain) id accountId;
+@property (nonatomic, copy) NSString *adClientId;
+@property (nonatomic, copy) NSString *adUnitId;
+@property (nonatomic, copy) NSString *alertId;
+@property (nonatomic, copy) NSString *currency;
+@property (nonatomic, copy) NSString *customChannelId;
+@property (nonatomic, retain) NSArray *dimension;  // of NSString
+@property (nonatomic, copy) NSString *endDate;
+@property (nonatomic, retain) NSArray *filter;  // of NSString
+@property (nonatomic, assign) BOOL includeInactive;
+@property (nonatomic, copy) NSString *locale;
+@property (nonatomic, assign) NSInteger maxResults;
+@property (nonatomic, retain) NSArray *metric;  // of NSString
+@property (nonatomic, copy) NSString *pageToken;
+@property (nonatomic, copy) NSString *savedAdStyleId;
+@property (nonatomic, copy) NSString *savedReportId;
+@property (nonatomic, retain) NSArray *sort;  // of NSString
+@property (nonatomic, copy) NSString *startDate;
+@property (nonatomic, assign) NSInteger startIndex;
+@property (nonatomic, assign) BOOL tree;
+@property (nonatomic, assign) BOOL useTimezoneReporting;
 
 #pragma mark -
 #pragma mark "accounts.adclients" methods
@@ -88,7 +89,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdClients.
-+ (id)queryForAccountsAdclientsListWithAccountId:(NSString *)accountId;
++ (instancetype)queryForAccountsAdclientsListWithAccountId:(NSString *)accountId;
 
 #pragma mark -
 #pragma mark "accounts.adunits.customchannels" methods
@@ -110,9 +111,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannels.
-+ (id)queryForAccountsAdunitsCustomchannelsListWithAccountId:(NSString *)accountId
-                                                  adClientId:(NSString *)adClientId
-                                                    adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAccountsAdunitsCustomchannelsListWithAccountId:(NSString *)accountId
+                                                            adClientId:(NSString *)adClientId
+                                                              adUnitId:(NSString *)adUnitId;
 
 #pragma mark -
 #pragma mark "accounts.adunits" methods
@@ -129,9 +130,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnit.
-+ (id)queryForAccountsAdunitsGetWithAccountId:(NSString *)accountId
-                                   adClientId:(NSString *)adClientId
-                                     adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAccountsAdunitsGetWithAccountId:(NSString *)accountId
+                                             adClientId:(NSString *)adClientId
+                                               adUnitId:(NSString *)adUnitId;
 
 // Method: adsense.accounts.adunits.getAdCode
 // Get ad code for the specified ad unit.
@@ -143,9 +144,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdCode.
-+ (id)queryForAccountsAdunitsGetAdCodeWithAccountId:(NSString *)accountId
-                                         adClientId:(NSString *)adClientId
-                                           adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAccountsAdunitsGetAdCodeWithAccountId:(NSString *)accountId
+                                                   adClientId:(NSString *)adClientId
+                                                     adUnitId:(NSString *)adUnitId;
 
 // Method: adsense.accounts.adunits.list
 // List all ad units in the specified ad client for the specified account.
@@ -163,12 +164,23 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnits.
-+ (id)queryForAccountsAdunitsListWithAccountId:(NSString *)accountId
-                                    adClientId:(NSString *)adClientId;
++ (instancetype)queryForAccountsAdunitsListWithAccountId:(NSString *)accountId
+                                              adClientId:(NSString *)adClientId;
 
 #pragma mark -
 #pragma mark "accounts.alerts" methods
 // These create a GTLQueryAdSense object.
+
+// Method: adsense.accounts.alerts.delete
+// Dismiss (delete) the specified alert from the specified publisher AdSense
+// account.
+//  Required:
+//   accountId: Account which contains the ad unit.
+//   alertId: Alert to delete.
+//  Authorization scope(s):
+//   kGTLAuthScopeAdSense
++ (instancetype)queryForAccountsAlertsDeleteWithAccountId:(NSString *)accountId
+                                                  alertId:(NSString *)alertId;
 
 // Method: adsense.accounts.alerts.list
 // List the alerts for the specified AdSense account.
@@ -182,7 +194,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAlerts.
-+ (id)queryForAccountsAlertsListWithAccountId:(NSString *)accountId;
++ (instancetype)queryForAccountsAlertsListWithAccountId:(NSString *)accountId;
 
 #pragma mark -
 #pragma mark "accounts.customchannels.adunits" methods
@@ -205,9 +217,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnits.
-+ (id)queryForAccountsCustomchannelsAdunitsListWithAccountId:(NSString *)accountId
-                                                  adClientId:(NSString *)adClientId
-                                             customChannelId:(NSString *)customChannelId;
++ (instancetype)queryForAccountsCustomchannelsAdunitsListWithAccountId:(NSString *)accountId
+                                                            adClientId:(NSString *)adClientId
+                                                       customChannelId:(NSString *)customChannelId;
 
 #pragma mark -
 #pragma mark "accounts.customchannels" methods
@@ -224,9 +236,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannel.
-+ (id)queryForAccountsCustomchannelsGetWithAccountId:(NSString *)accountId
-                                          adClientId:(NSString *)adClientId
-                                     customChannelId:(NSString *)customChannelId;
++ (instancetype)queryForAccountsCustomchannelsGetWithAccountId:(NSString *)accountId
+                                                    adClientId:(NSString *)adClientId
+                                               customChannelId:(NSString *)customChannelId;
 
 // Method: adsense.accounts.customchannels.list
 // List all custom channels in the specified ad client for the specified
@@ -244,8 +256,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannels.
-+ (id)queryForAccountsCustomchannelsListWithAccountId:(NSString *)accountId
-                                           adClientId:(NSString *)adClientId;
++ (instancetype)queryForAccountsCustomchannelsListWithAccountId:(NSString *)accountId
+                                                     adClientId:(NSString *)adClientId;
 
 #pragma mark -
 #pragma mark "accounts" methods
@@ -261,7 +273,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAccount.
-+ (id)queryForAccountsGetWithAccountId:(NSString *)accountId;
++ (instancetype)queryForAccountsGetWithAccountId:(NSString *)accountId;
 
 // Method: adsense.accounts.list
 // List all accounts available to this AdSense account.
@@ -275,7 +287,21 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAccounts.
-+ (id)queryForAccountsList;
++ (instancetype)queryForAccountsList;
+
+#pragma mark -
+#pragma mark "accounts.payments" methods
+// These create a GTLQueryAdSense object.
+
+// Method: adsense.accounts.payments.list
+// List the payments for the specified AdSense account.
+//  Required:
+//   accountId: Account for which to retrieve the payments.
+//  Authorization scope(s):
+//   kGTLAuthScopeAdSense
+//   kGTLAuthScopeAdSenseReadonly
+// Fetches a GTLAdSensePayments.
++ (instancetype)queryForAccountsPaymentsListWithAccountId:(NSString *)accountId;
 
 #pragma mark -
 #pragma mark "accounts.reports" methods
@@ -310,9 +336,9 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdsenseReportsGenerateResponse.
-+ (id)queryForAccountsReportsGenerateWithAccountId:(NSString *)accountId
-                                         startDate:(NSString *)startDate
-                                           endDate:(NSString *)endDate;
++ (instancetype)queryForAccountsReportsGenerateWithAccountId:(NSString *)accountId
+                                                   startDate:(NSString *)startDate
+                                                     endDate:(NSString *)endDate;
 
 #pragma mark -
 #pragma mark "accounts.reports.saved" methods
@@ -333,8 +359,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdsenseReportsGenerateResponse.
-+ (id)queryForAccountsReportsSavedGenerateWithAccountId:(NSString *)accountId
-                                          savedReportId:(NSString *)savedReportId;
++ (instancetype)queryForAccountsReportsSavedGenerateWithAccountId:(NSString *)accountId
+                                                    savedReportId:(NSString *)savedReportId;
 
 // Method: adsense.accounts.reports.saved.list
 // List all saved reports in the specified AdSense account.
@@ -350,7 +376,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedReports.
-+ (id)queryForAccountsReportsSavedListWithAccountId:(NSString *)accountId;
++ (instancetype)queryForAccountsReportsSavedListWithAccountId:(NSString *)accountId;
 
 #pragma mark -
 #pragma mark "accounts.savedadstyles" methods
@@ -365,8 +391,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedAdStyle.
-+ (id)queryForAccountsSavedadstylesGetWithAccountId:(NSString *)accountId
-                                     savedAdStyleId:(NSString *)savedAdStyleId;
++ (instancetype)queryForAccountsSavedadstylesGetWithAccountId:(NSString *)accountId
+                                               savedAdStyleId:(NSString *)savedAdStyleId;
 
 // Method: adsense.accounts.savedadstyles.list
 // List all saved ad styles in the specified account.
@@ -382,7 +408,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedAdStyles.
-+ (id)queryForAccountsSavedadstylesListWithAccountId:(NSString *)accountId;
++ (instancetype)queryForAccountsSavedadstylesListWithAccountId:(NSString *)accountId;
 
 #pragma mark -
 #pragma mark "accounts.urlchannels" methods
@@ -403,8 +429,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseUrlChannels.
-+ (id)queryForAccountsUrlchannelsListWithAccountId:(NSString *)accountId
-                                        adClientId:(NSString *)adClientId;
++ (instancetype)queryForAccountsUrlchannelsListWithAccountId:(NSString *)accountId
+                                                  adClientId:(NSString *)adClientId;
 
 #pragma mark -
 #pragma mark "adclients" methods
@@ -422,7 +448,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdClients.
-+ (id)queryForAdclientsList;
++ (instancetype)queryForAdclientsList;
 
 #pragma mark -
 #pragma mark "adunits.customchannels" methods
@@ -443,8 +469,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannels.
-+ (id)queryForAdunitsCustomchannelsListWithAdClientId:(NSString *)adClientId
-                                             adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAdunitsCustomchannelsListWithAdClientId:(NSString *)adClientId
+                                                       adUnitId:(NSString *)adUnitId;
 
 #pragma mark -
 #pragma mark "adunits" methods
@@ -459,8 +485,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnit.
-+ (id)queryForAdunitsGetWithAdClientId:(NSString *)adClientId
-                              adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAdunitsGetWithAdClientId:(NSString *)adClientId
+                                        adUnitId:(NSString *)adUnitId;
 
 // Method: adsense.adunits.getAdCode
 // Get ad code for the specified ad unit.
@@ -471,8 +497,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdCode.
-+ (id)queryForAdunitsGetAdCodeWithAdClientId:(NSString *)adClientId
-                                    adUnitId:(NSString *)adUnitId;
++ (instancetype)queryForAdunitsGetAdCodeWithAdClientId:(NSString *)adClientId
+                                              adUnitId:(NSString *)adUnitId;
 
 // Method: adsense.adunits.list
 // List all ad units in the specified ad client for this AdSense account.
@@ -489,11 +515,19 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnits.
-+ (id)queryForAdunitsListWithAdClientId:(NSString *)adClientId;
++ (instancetype)queryForAdunitsListWithAdClientId:(NSString *)adClientId;
 
 #pragma mark -
 #pragma mark "alerts" methods
 // These create a GTLQueryAdSense object.
+
+// Method: adsense.alerts.delete
+// Dismiss (delete) the specified alert from the publisher's AdSense account.
+//  Required:
+//   alertId: Alert to delete.
+//  Authorization scope(s):
+//   kGTLAuthScopeAdSense
++ (instancetype)queryForAlertsDeleteWithAlertId:(NSString *)alertId;
 
 // Method: adsense.alerts.list
 // List the alerts for this AdSense account.
@@ -505,7 +539,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAlerts.
-+ (id)queryForAlertsList;
++ (instancetype)queryForAlertsList;
 
 #pragma mark -
 #pragma mark "customchannels.adunits" methods
@@ -527,8 +561,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdUnits.
-+ (id)queryForCustomchannelsAdunitsListWithAdClientId:(NSString *)adClientId
-                                      customChannelId:(NSString *)customChannelId;
++ (instancetype)queryForCustomchannelsAdunitsListWithAdClientId:(NSString *)adClientId
+                                                customChannelId:(NSString *)customChannelId;
 
 #pragma mark -
 #pragma mark "customchannels" methods
@@ -543,8 +577,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannel.
-+ (id)queryForCustomchannelsGetWithAdClientId:(NSString *)adClientId
-                              customChannelId:(NSString *)customChannelId;
++ (instancetype)queryForCustomchannelsGetWithAdClientId:(NSString *)adClientId
+                                        customChannelId:(NSString *)customChannelId;
 
 // Method: adsense.customchannels.list
 // List all custom channels in the specified ad client for this AdSense account.
@@ -560,7 +594,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseCustomChannels.
-+ (id)queryForCustomchannelsListWithAdClientId:(NSString *)adClientId;
++ (instancetype)queryForCustomchannelsListWithAdClientId:(NSString *)adClientId;
 
 #pragma mark -
 #pragma mark "metadata.dimensions" methods
@@ -572,7 +606,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseMetadata.
-+ (id)queryForMetadataDimensionsList;
++ (instancetype)queryForMetadataDimensionsList;
 
 #pragma mark -
 #pragma mark "metadata.metrics" methods
@@ -584,7 +618,19 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseMetadata.
-+ (id)queryForMetadataMetricsList;
++ (instancetype)queryForMetadataMetricsList;
+
+#pragma mark -
+#pragma mark "payments" methods
+// These create a GTLQueryAdSense object.
+
+// Method: adsense.payments.list
+// List the payments for this AdSense account.
+//  Authorization scope(s):
+//   kGTLAuthScopeAdSense
+//   kGTLAuthScopeAdSenseReadonly
+// Fetches a GTLAdSensePayments.
++ (instancetype)queryForPaymentsList;
 
 #pragma mark -
 #pragma mark "reports" methods
@@ -601,7 +647,7 @@
 //     inclusive.
 //  Optional:
 //   accountId: Accounts upon which to report.
-//     Note: For this method, "accountId" should be of type NSArray.
+//     Note: For this method, "accountId" should be of type NSArray<NSString>.
 //   currency: Optional currency to use when reporting on monetary metrics.
 //     Defaults to the account's currency if not set.
 //   dimension: Dimensions to base the report on.
@@ -620,8 +666,8 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdsenseReportsGenerateResponse.
-+ (id)queryForReportsGenerateWithStartDate:(NSString *)startDate
-                                   endDate:(NSString *)endDate;
++ (instancetype)queryForReportsGenerateWithStartDate:(NSString *)startDate
+                                             endDate:(NSString *)endDate;
 
 #pragma mark -
 #pragma mark "reports.saved" methods
@@ -641,7 +687,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseAdsenseReportsGenerateResponse.
-+ (id)queryForReportsSavedGenerateWithSavedReportId:(NSString *)savedReportId;
++ (instancetype)queryForReportsSavedGenerateWithSavedReportId:(NSString *)savedReportId;
 
 // Method: adsense.reports.saved.list
 // List all saved reports in this AdSense account.
@@ -655,7 +701,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedReports.
-+ (id)queryForReportsSavedList;
++ (instancetype)queryForReportsSavedList;
 
 #pragma mark -
 #pragma mark "savedadstyles" methods
@@ -669,7 +715,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedAdStyle.
-+ (id)queryForSavedadstylesGetWithSavedAdStyleId:(NSString *)savedAdStyleId;
++ (instancetype)queryForSavedadstylesGetWithSavedAdStyleId:(NSString *)savedAdStyleId;
 
 // Method: adsense.savedadstyles.list
 // List all saved ad styles in the user's account.
@@ -683,7 +729,7 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseSavedAdStyles.
-+ (id)queryForSavedadstylesList;
++ (instancetype)queryForSavedadstylesList;
 
 #pragma mark -
 #pragma mark "urlchannels" methods
@@ -703,6 +749,6 @@
 //   kGTLAuthScopeAdSense
 //   kGTLAuthScopeAdSenseReadonly
 // Fetches a GTLAdSenseUrlChannels.
-+ (id)queryForUrlchannelsListWithAdClientId:(NSString *)adClientId;
++ (instancetype)queryForUrlchannelsListWithAdClientId:(NSString *)adClientId;
 
 @end

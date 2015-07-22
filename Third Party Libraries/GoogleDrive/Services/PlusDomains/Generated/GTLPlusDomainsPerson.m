@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@
 // Documentation:
 //   https://developers.google.com/+/domains/
 // Classes:
-//   GTLPlusDomainsPerson (0 custom class methods, 24 custom properties)
+//   GTLPlusDomainsPerson (0 custom class methods, 28 custom properties)
 //   GTLPlusDomainsPersonCover (0 custom class methods, 3 custom properties)
-//   GTLPlusDomainsPersonImage (0 custom class methods, 1 custom properties)
+//   GTLPlusDomainsPersonEmailsItem (0 custom class methods, 2 custom properties)
+//   GTLPlusDomainsPersonImage (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsPersonName (0 custom class methods, 6 custom properties)
 //   GTLPlusDomainsPersonOrganizationsItem (0 custom class methods, 9 custom properties)
 //   GTLPlusDomainsPersonPlacesLivedItem (0 custom class methods, 2 custom properties)
@@ -45,27 +46,26 @@
 
 @implementation GTLPlusDomainsPerson
 @dynamic aboutMe, birthday, braggingRights, circledByCount, cover,
-         currentLocation, displayName, ETag, gender, identifier, image,
-         isPlusUser, kind, name, nickname, objectType, organizations,
-         placesLived, plusOneCount, relationshipStatus, tagline, url, urls,
-         verified;
+         currentLocation, displayName, domain, emails, ETag, gender, identifier,
+         image, isPlusUser, kind, name, nickname, objectType, occupation,
+         organizations, placesLived, plusOneCount, relationshipStatus, skills,
+         tagline, url, urls, verified;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLPlusDomainsPersonOrganizationsItem class], @"organizations",
-      [GTLPlusDomainsPersonPlacesLivedItem class], @"placesLived",
-      [GTLPlusDomainsPersonUrlsItem class], @"urls",
-      nil];
+  NSDictionary *map = @{
+    @"emails" : [GTLPlusDomainsPersonEmailsItem class],
+    @"organizations" : [GTLPlusDomainsPersonOrganizationsItem class],
+    @"placesLived" : [GTLPlusDomainsPersonPlacesLivedItem class],
+    @"urls" : [GTLPlusDomainsPersonUrlsItem class]
+  };
   return map;
 }
 
@@ -88,11 +88,21 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLPlusDomainsPersonEmailsItem
+//
+
+@implementation GTLPlusDomainsPersonEmailsItem
+@dynamic type, value;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLPlusDomainsPersonImage
 //
 
 @implementation GTLPlusDomainsPersonImage
-@dynamic url;
+@dynamic isDefault, url;
 @end
 
 
@@ -117,9 +127,9 @@
          startDate, title, type;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 

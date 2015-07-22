@@ -24,7 +24,7 @@
 @interface GTMOAuth2WindowController ()
 @property (nonatomic, retain) GTMOAuth2SignIn *signIn;
 @property (nonatomic, copy) NSURLRequest *initialRequest;
-@property (nonatomic, retain) GTMCookieStorage *cookieStorage;
+@property (nonatomic, retain) GTMOAuth2CookieStorage *cookieStorage;
 @property (nonatomic, retain) NSWindow *sheetModalForWindow;
 
 - (void)signInCommonForWindow:(NSWindow *)parentWindowOrNil;
@@ -117,6 +117,7 @@ const char *kKeychainAccountName = "OAuth";
   NSString *nibName = [[self class] authNibName];
   NSString *nibPath = [bundle pathForResource:nibName
                                        ofType:@"nib"];
+
   self = [super initWithWindowNibPath:nibPath
                                 owner:self];
   if (self != nil) {
@@ -130,12 +131,19 @@ const char *kKeychainAccountName = "OAuth";
     keychainItemName_ = [keychainItemName copy];
 
     // create local, temporary storage for WebKit cookies
-    cookieStorage_ = [[GTMCookieStorage alloc] init];
+    cookieStorage_ = [[GTMOAuth2CookieStorage alloc] init];
   }
   return self;
 }
 
 - (void)dealloc {
+  // The destroyWindow method below calls the WebView's stopLoading, which should avoid
+  // any later callbacks, but apparently doesn't accomplish that, as we're seeing calls
+  // back to the controller after it has dealloc'd.  So we'll explicitly set the delegate
+  // pointers to nil.
+  [webView_ setResourceLoadDelegate:nil];
+  [webView_ setPolicyDelegate:nil];
+
   [signIn_ release];
   [initialRequest_ release];
   [cookieStorage_ release];
@@ -213,7 +221,7 @@ const char *kKeychainAccountName = "OAuth";
                          delegate:(id)delegate
                  finishedSelector:(SEL)finishedSelector {
   // check the selector on debug builds
-  GTMAssertSelectorNilOrImplementedWithArgs(delegate, finishedSelector,
+  GTMOAuth2AssertValidSelector(delegate, finishedSelector,
     @encode(GTMOAuth2WindowController *), @encode(GTMOAuth2Authentication *),
     @encode(NSError *), 0);
 

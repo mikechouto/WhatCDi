@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +26,18 @@
 // Documentation:
 //   https://developers.google.com/glass
 // Classes:
-//   GTLQueryMirror (22 custom class methods, 11 custom properties)
+//   GTLQueryMirror (24 custom class methods, 14 custom properties)
 
 #import "GTLQueryMirror.h"
 
+#import "GTLMirrorAccount.h"
 #import "GTLMirrorAttachment.h"
 #import "GTLMirrorAttachmentsListResponse.h"
 #import "GTLMirrorContact.h"
 #import "GTLMirrorContactsListResponse.h"
 #import "GTLMirrorLocation.h"
 #import "GTLMirrorLocationsListResponse.h"
+#import "GTLMirrorSetting.h"
 #import "GTLMirrorSubscription.h"
 #import "GTLMirrorSubscriptionsListResponse.h"
 #import "GTLMirrorTimelineItem.h"
@@ -43,28 +45,51 @@
 
 @implementation GTLQueryMirror
 
-@dynamic attachmentId, bundleId, fields, identifier, includeDeleted, itemId,
-         maxResults, orderBy, pageToken, pinnedOnly, sourceItemId;
+@dynamic accountName, accountType, attachmentId, bundleId, fields, identifier,
+         includeDeleted, itemId, maxResults, orderBy, pageToken, pinnedOnly,
+         sourceItemId, userToken;
 
 + (NSDictionary *)parameterNameMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
+}
+
+#pragma mark -
+#pragma mark "accounts" methods
+// These create a GTLQueryMirror object.
+
++ (instancetype)queryForAccountsInsertWithObject:(GTLMirrorAccount *)object
+                                       userToken:(NSString *)userToken
+                                     accountType:(NSString *)accountType
+                                     accountName:(NSString *)accountName {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"mirror.accounts.insert";
+  GTLQueryMirror *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.userToken = userToken;
+  query.accountType = accountType;
+  query.accountName = accountName;
+  query.expectedObjectClass = [GTLMirrorAccount class];
+  return query;
 }
 
 #pragma mark -
 #pragma mark "contacts" methods
 // These create a GTLQueryMirror object.
 
-+ (id)queryForContactsDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForContactsDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.contacts.delete";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForContactsGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForContactsGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.contacts.get";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -72,7 +97,7 @@
   return query;
 }
 
-+ (id)queryForContactsInsertWithObject:(GTLMirrorContact *)object {
++ (instancetype)queryForContactsInsertWithObject:(GTLMirrorContact *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -84,15 +109,15 @@
   return query;
 }
 
-+ (id)queryForContactsList {
++ (instancetype)queryForContactsList {
   NSString *methodName = @"mirror.contacts.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMirrorContactsListResponse class];
   return query;
 }
 
-+ (id)queryForContactsPatchWithObject:(GTLMirrorContact *)object
-                           identifier:(NSString *)identifier {
++ (instancetype)queryForContactsPatchWithObject:(GTLMirrorContact *)object
+                                     identifier:(NSString *)identifier {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -105,8 +130,8 @@
   return query;
 }
 
-+ (id)queryForContactsUpdateWithObject:(GTLMirrorContact *)object
-                            identifier:(NSString *)identifier {
++ (instancetype)queryForContactsUpdateWithObject:(GTLMirrorContact *)object
+                                      identifier:(NSString *)identifier {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -123,7 +148,7 @@
 #pragma mark "locations" methods
 // These create a GTLQueryMirror object.
 
-+ (id)queryForLocationsGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForLocationsGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.locations.get";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -131,7 +156,7 @@
   return query;
 }
 
-+ (id)queryForLocationsList {
++ (instancetype)queryForLocationsList {
   NSString *methodName = @"mirror.locations.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMirrorLocationsListResponse class];
@@ -139,17 +164,29 @@
 }
 
 #pragma mark -
+#pragma mark "settings" methods
+// These create a GTLQueryMirror object.
+
++ (instancetype)queryForSettingsGetWithIdentifier:(NSString *)identifier {
+  NSString *methodName = @"mirror.settings.get";
+  GTLQueryMirror *query = [self queryWithMethodName:methodName];
+  query.identifier = identifier;
+  query.expectedObjectClass = [GTLMirrorSetting class];
+  return query;
+}
+
+#pragma mark -
 #pragma mark "subscriptions" methods
 // These create a GTLQueryMirror object.
 
-+ (id)queryForSubscriptionsDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForSubscriptionsDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.subscriptions.delete";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForSubscriptionsInsertWithObject:(GTLMirrorSubscription *)object {
++ (instancetype)queryForSubscriptionsInsertWithObject:(GTLMirrorSubscription *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -161,15 +198,15 @@
   return query;
 }
 
-+ (id)queryForSubscriptionsList {
++ (instancetype)queryForSubscriptionsList {
   NSString *methodName = @"mirror.subscriptions.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMirrorSubscriptionsListResponse class];
   return query;
 }
 
-+ (id)queryForSubscriptionsUpdateWithObject:(GTLMirrorSubscription *)object
-                                 identifier:(NSString *)identifier {
++ (instancetype)queryForSubscriptionsUpdateWithObject:(GTLMirrorSubscription *)object
+                                           identifier:(NSString *)identifier {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -186,8 +223,8 @@
 #pragma mark "timeline.attachments" methods
 // These create a GTLQueryMirror object.
 
-+ (id)queryForTimelineAttachmentsDeleteWithItemId:(NSString *)itemId
-                                     attachmentId:(NSString *)attachmentId {
++ (instancetype)queryForTimelineAttachmentsDeleteWithItemId:(NSString *)itemId
+                                               attachmentId:(NSString *)attachmentId {
   NSString *methodName = @"mirror.timeline.attachments.delete";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.itemId = itemId;
@@ -195,8 +232,8 @@
   return query;
 }
 
-+ (id)queryForTimelineAttachmentsGetWithItemId:(NSString *)itemId
-                                  attachmentId:(NSString *)attachmentId {
++ (instancetype)queryForTimelineAttachmentsGetWithItemId:(NSString *)itemId
+                                            attachmentId:(NSString *)attachmentId {
   NSString *methodName = @"mirror.timeline.attachments.get";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.itemId = itemId;
@@ -205,8 +242,8 @@
   return query;
 }
 
-+ (id)queryForTimelineAttachmentsInsertWithItemId:(NSString *)itemId
-                                 uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForTimelineAttachmentsInsertWithItemId:(NSString *)itemId
+                                           uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   NSString *methodName = @"mirror.timeline.attachments.insert";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.itemId = itemId;
@@ -215,7 +252,7 @@
   return query;
 }
 
-+ (id)queryForTimelineAttachmentsListWithItemId:(NSString *)itemId {
++ (instancetype)queryForTimelineAttachmentsListWithItemId:(NSString *)itemId {
   NSString *methodName = @"mirror.timeline.attachments.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.itemId = itemId;
@@ -227,14 +264,14 @@
 #pragma mark "timeline" methods
 // These create a GTLQueryMirror object.
 
-+ (id)queryForTimelineDeleteWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTimelineDeleteWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.timeline.delete";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
   return query;
 }
 
-+ (id)queryForTimelineGetWithIdentifier:(NSString *)identifier {
++ (instancetype)queryForTimelineGetWithIdentifier:(NSString *)identifier {
   NSString *methodName = @"mirror.timeline.get";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.identifier = identifier;
@@ -242,8 +279,8 @@
   return query;
 }
 
-+ (id)queryForTimelineInsertWithObject:(GTLMirrorTimelineItem *)object
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForTimelineInsertWithObject:(GTLMirrorTimelineItem *)object
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -256,15 +293,15 @@
   return query;
 }
 
-+ (id)queryForTimelineList {
++ (instancetype)queryForTimelineList {
   NSString *methodName = @"mirror.timeline.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMirrorTimelineListResponse class];
   return query;
 }
 
-+ (id)queryForTimelinePatchWithObject:(GTLMirrorTimelineItem *)object
-                           identifier:(NSString *)identifier {
++ (instancetype)queryForTimelinePatchWithObject:(GTLMirrorTimelineItem *)object
+                                     identifier:(NSString *)identifier {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -277,9 +314,9 @@
   return query;
 }
 
-+ (id)queryForTimelineUpdateWithObject:(GTLMirrorTimelineItem *)object
-                            identifier:(NSString *)identifier
-                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForTimelineUpdateWithObject:(GTLMirrorTimelineItem *)object
+                                      identifier:(NSString *)identifier
+                                uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;

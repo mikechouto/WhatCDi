@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,17 +50,18 @@
 @interface GTLYouTubeGuideCategory : GTLObject
 
 // Etag of this resource.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The ID that YouTube uses to uniquely identify the guide category.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
-// The kind, fixed to "youtube#guideCategory".
-@property (copy) NSString *kind;
+// Identifies what kind of resource this is. Value: the fixed string
+// "youtube#guideCategory".
+@property (nonatomic, copy) NSString *kind;
 
 // The snippet object contains basic details about the category, such as its
 // title.
-@property (retain) GTLYouTubeGuideCategorySnippet *snippet;
+@property (nonatomic, retain) GTLYouTubeGuideCategorySnippet *snippet;
 
 @end

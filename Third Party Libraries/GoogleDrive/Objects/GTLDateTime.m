@@ -19,6 +19,20 @@
 
 #import "GTLDateTime.h"
 
+#if (!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_10) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_10) \
+  || (TARGET_OS_IPHONE && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0)
+#define GTL_NEW_CALENDAR_ENUMS 1
+#else
+#define GTL_NEW_CALENDAR_ENUMS 0
+#endif
+
+#if GTL_NEW_CALENDAR_ENUMS
+static const NSInteger kGTLUndefinedDateComponent = NSDateComponentUndefined;
+#else
+static const NSInteger kGTLUndefinedDateComponent = NSUndefinedDateComponent;
+#endif
+
+
 @interface GTLDateTime ()
 
 - (void)setFromDate:(NSDate *)date timeZone:(NSTimeZone *)tz;
@@ -33,12 +47,6 @@
 @property (nonatomic, assign, getter=isUniversalTime, readwrite) BOOL universalTime;
 
 @end
-
-static NSCharacterSet *gDashSet = nil;
-static NSCharacterSet *gTSet = nil;
-static NSCharacterSet *gColonSet = nil;
-static NSCharacterSet *gPlusMinusZSet = nil;
-static NSMutableDictionary *gCalendarsForTimeZones = nil;
 
 @implementation GTLDateTime
 
@@ -63,19 +71,6 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
             milliseconds = milliseconds_,
             offsetSeconds = offsetSeconds_,
             universalTime = isUniversalTime_;
-
-+ (void)initialize {
-  // Note that initialize is guaranteed by the runtime to be called in a
-  // thread-safe manner.
-  if (gDashSet == nil) {
-    gDashSet = [[NSCharacterSet characterSetWithCharactersInString:@"-"] retain];
-    gTSet = [[NSCharacterSet characterSetWithCharactersInString:@"Tt "] retain];
-    gColonSet = [[NSCharacterSet characterSetWithCharactersInString:@":"] retain];
-    gPlusMinusZSet = [[NSCharacterSet characterSetWithCharactersInString:@"+-zZ"] retain];
-
-    gCalendarsForTimeZones = [[NSMutableDictionary alloc] init];
-  }
-}
 
 + (GTLDateTime *)dateTimeWithRFC3339String:(NSString *)str {
   if (str == nil) return nil;
@@ -103,23 +98,36 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 }
 
 + (GTLDateTime *)dateTimeWithDateComponents:(NSDateComponents *)components {
-  NSCalendar *cal = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+#if GTL_NEW_CALENDAR_ENUMS
+  NSString *calendarID = NSCalendarIdentifierGregorian;
+#else
+  NSString *calendarID = NSGregorianCalendar;
+#endif
+  NSCalendar *cal = [[[NSCalendar alloc] initWithCalendarIdentifier:calendarID] autorelease];
   NSDate *date = [cal dateFromComponents:components];
 #if GTL_IPHONE
   NSTimeZone *tz = [components timeZone];
 #else
   // NSDateComponents added timeZone: in Mac OS X 10.7.
   NSTimeZone *tz = nil;
-  if ([components respondsToSelector:@selector(timeZone)]) {
+
+#if defined(MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
+  BOOL hasTimeZone = YES;
+#else
+  BOOL hasTimeZone = [components respondsToSelector:@selector(timeZone)];
+#endif
+  if (hasTimeZone) {
     tz = [components timeZone];
   }
-#endif
+#endif  // GTL_IPHONE
   return [self dateTimeWithDate:date timeZone:tz];
 }
 
 - (void)dealloc {
   [dateComponents_ release];
   [timeZone_ release];
+  [cachedDate_ release];
+  [cachedRFC3339String_ release];
   [super dealloc];
 }
 
@@ -128,7 +136,35 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
   return [self retain];
 }
 
+// On 10.9 and iOS 7 (and possibly earlier systems) NSDateComponents isEqual: works; check if
+// we're guaranteed to be running on those systems or later.
+#if (!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_9) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_9) \
+    || (TARGET_OS_IPHONE && defined(__IPHONE_7_0) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0)
+  #define GTL_CAN_TRUST_DATE_COMPONENTS_ISEQUAL 1
+#else
+  #define GTL_CAN_TRUST_DATE_COMPONENTS_ISEQUAL 0
+#endif
+
+// weekOfMonth and weekOfYear are available on 10.7 and iOS 5; check that we're building
+// for at least those systems.
+#if (!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7) \
+    || (TARGET_OS_IPHONE && defined(__IPHONE_5_0) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0)
+  #define GTL_HAS_WEEK_OF_MONTH 1
+#else
+  #define GTL_HAS_WEEK_OF_MONTH 0
+#endif
+
+// week is not available starting with 10.10 and iOS 8 SDKs; check that we're not building
+// with those SDKs.
+#if (!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_10) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_10) \
+|| (TARGET_OS_IPHONE && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0)
+  #define GTL_HAS_WEEK 0
+#else
+  #define GTL_HAS_WEEK 1
+#endif
+
 // until NSDateComponent implements isEqual, we'll use this
+#if !GTL_CAN_TRUST_DATE_COMPONENTS_ISEQUAL
 - (BOOL)doesDateComponents:(NSDateComponents *)dc1
        equalDateComponents:(NSDateComponents *)dc2 {
 
@@ -139,27 +175,44 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
           && [dc1 hour] == [dc2 hour]
           && [dc1 minute] == [dc2 minute]
           && [dc1 second] == [dc2 second]
+#if GTL_HAS_WEEK_OF_MONTH
+          && [dc1 weekOfMonth] == [dc2 weekOfMonth]
+          && [dc1 weekOfYear] == [dc2 weekOfYear]
+#endif
+#if GTL_HAS_WEEK
           && [dc1 week] == [dc2 week]
+#endif
           && [dc1 weekday] == [dc2 weekday]
+
           && [dc1 weekdayOrdinal] == [dc2 weekdayOrdinal];
+
 }
+#endif  // !GTL_CAN_TRUST_DATE_COMPONENTS_ISEQUAL
 
 - (BOOL)isEqual:(GTLDateTime *)other {
-
   if (self == other) return YES;
   if (![other isKindOfClass:[GTLDateTime class]]) return NO;
 
+#if GTL_CAN_TRUST_DATE_COMPONENTS_ISEQUAL
+  BOOL areDateComponentsEqual = [self.dateComponents isEqual:other.dateComponents];
+#else
   BOOL areDateComponentsEqual = [self doesDateComponents:self.dateComponents
                                      equalDateComponents:other.dateComponents];
+#endif
+  if (!areDateComponentsEqual) return NO;
+
   NSTimeZone *tz1 = self.timeZone;
   NSTimeZone *tz2 = other.timeZone;
   BOOL areTimeZonesEqual = (tz1 == tz2 || (tz2 && [tz1 isEqual:tz2]));
 
-  return self.offsetSeconds == other.offsetSeconds
-    && self.isUniversalTime == other.isUniversalTime
-    && self.milliseconds == other.milliseconds
-    && areDateComponentsEqual
-    && areTimeZonesEqual;
+  return areTimeZonesEqual
+    && self.offsetSeconds == other.offsetSeconds
+    && self.universalTime == other.universalTime
+    && self.milliseconds == other.milliseconds;
+}
+
+- (NSUInteger)hash {
+  return [[self date] hash];
 }
 
 - (NSString *)description {
@@ -172,14 +225,14 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
     return timeZone_;
   }
 
-  if (self.isUniversalTime) {
+  if (self.universalTime) {
     NSTimeZone *ztz = [NSTimeZone timeZoneWithName:@"Universal"];
     return ztz;
   }
 
   NSInteger offsetSeconds = self.offsetSeconds;
 
-  if (offsetSeconds != NSUndefinedDateComponent) {
+  if (offsetSeconds != kGTLUndefinedDateComponent) {
     NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:offsetSeconds];
     return tz;
   }
@@ -194,17 +247,29 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
     NSInteger offsetSeconds = [timeZone secondsFromGMTForDate:self.date];
     self.offsetSeconds = offsetSeconds;
   } else {
-    self.offsetSeconds = NSUndefinedDateComponent;
+    self.offsetSeconds = kGTLUndefinedDateComponent;
   }
 }
 
 - (NSCalendar *)calendarForTimeZone:(NSTimeZone *)tz {
+  static NSMutableDictionary *gCalendarsForTimeZones;
+
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    gCalendarsForTimeZones = [[NSMutableDictionary alloc] init];
+  });
+
   NSCalendar *cal = nil;
   @synchronized(gCalendarsForTimeZones) {
     id tzKey = (tz ? tz : [NSNull null]);
     cal = [gCalendarsForTimeZones objectForKey:tzKey];
     if (cal == nil) {
-      cal = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+#if GTL_NEW_CALENDAR_ENUMS
+      NSString *calendarID = NSCalendarIdentifierGregorian;
+#else
+      NSString *calendarID = NSGregorianCalendar;
+#endif
+      cal = [[[NSCalendar alloc] initWithCalendarIdentifier:calendarID] autorelease];
       if (tz) {
         [cal setTimeZone:tz];
       }
@@ -220,6 +285,10 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 }
 
 - (NSDate *)date {
+  @synchronized(self) {
+    if (cachedDate_) return cachedDate_;
+  }
+
   NSDateComponents *dateComponents = self.dateComponents;
   NSTimeInterval extraMillisecondsAsSeconds = 0.0;
   NSCalendar *cal;
@@ -238,7 +307,7 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
     [noonDateComponents setMinute:0];
     [noonDateComponents setSecond:0];
     dateComponents = noonDateComponents;
-    
+
     NSTimeZone *gmt = [NSTimeZone timeZoneWithName:@"Universal"];
     cal = [self calendarForTimeZone:gmt];
   } else {
@@ -259,6 +328,10 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 #endif
   }
 
+  @synchronized(self) {
+    [cachedDate_ release];
+    cachedDate_ = [date retain];
+  }
   return date;
 }
 
@@ -267,6 +340,10 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 }
 
 - (NSString *)RFC3339String {
+  @synchronized(self) {
+    if (cachedRFC3339String_) return cachedRFC3339String_;
+  }
+
   NSDateComponents *dateComponents = self.dateComponents;
   NSInteger offset = self.offsetSeconds;
 
@@ -276,9 +353,9 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 
     NSString *timeOffsetString; // timeOffsetString like "-08:00"
 
-    if (self.isUniversalTime) {
+    if (self.universalTime) {
      timeOffsetString = @"Z";
-    } else if (offset == NSUndefinedDateComponent) {
+    } else if (offset == kGTLUndefinedDateComponent) {
       // unknown offset is rendered as -00:00 per
       // http://www.ietf.org/rfc/rfc3339.txt section 4.3
       timeOffsetString = @"-00:00";
@@ -307,15 +384,25 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
     (long)[dateComponents year], (long)[dateComponents month],
     (long)[dateComponents day], timeString];
 
+  @synchronized(self) {
+    [cachedRFC3339String_ release];
+    cachedRFC3339String_ = [dateString retain];
+  }
   return dateString;
 }
 
 - (void)setFromDate:(NSDate *)date timeZone:(NSTimeZone *)tz {
   NSCalendar *cal = [self calendarForTimeZone:tz];
 
+#if GTL_NEW_CALENDAR_ENUMS
+  NSUInteger const kComponentBits = (NSCalendarUnitYear | NSCalendarUnitMonth
+    | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute
+    | NSCalendarUnitSecond);
+#else
   NSUInteger const kComponentBits = (NSYearCalendarUnit | NSMonthCalendarUnit
     | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit
     | NSSecondCalendarUnit);
+#endif
 
   NSDateComponents *components = [cal components:kComponentBits fromDate:date];
   self.dateComponents = components;
@@ -324,10 +411,10 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
   NSTimeInterval asTimeInterval = [date timeIntervalSince1970];
   NSTimeInterval worker = asTimeInterval - trunc(asTimeInterval);
   self.milliseconds = (NSInteger)round(worker * 1000.0);
-  
+
   self.universalTime = NO;
 
-  NSInteger offset = NSUndefinedDateComponent;
+  NSInteger offset = kGTLUndefinedDateComponent;
 
   if (tz) {
     offset = [tz secondsFromGMTForDate:date];
@@ -344,13 +431,25 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 }
 
 - (void)setFromRFC3339String:(NSString *)str {
+  static NSCharacterSet *gDashSet;
+  static NSCharacterSet *gTSet;
+  static NSCharacterSet *gColonSet;
+  static NSCharacterSet *gPlusMinusZSet;
 
-  NSInteger year = NSUndefinedDateComponent;
-  NSInteger month = NSUndefinedDateComponent;
-  NSInteger day = NSUndefinedDateComponent;
-  NSInteger hour = NSUndefinedDateComponent;
-  NSInteger minute = NSUndefinedDateComponent;
-  NSInteger sec = NSUndefinedDateComponent;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    gDashSet = [[NSCharacterSet characterSetWithCharactersInString:@"-"] retain];
+    gTSet = [[NSCharacterSet characterSetWithCharactersInString:@"Tt "] retain];
+    gColonSet = [[NSCharacterSet characterSetWithCharactersInString:@":"] retain];
+    gPlusMinusZSet = [[NSCharacterSet characterSetWithCharactersInString:@"+-zZ"] retain];
+  });
+
+  NSInteger year = kGTLUndefinedDateComponent;
+  NSInteger month = kGTLUndefinedDateComponent;
+  NSInteger day = kGTLUndefinedDateComponent;
+  NSInteger hour = kGTLUndefinedDateComponent;
+  NSInteger minute = kGTLUndefinedDateComponent;
+  NSInteger sec = kGTLUndefinedDateComponent;
   NSInteger milliseconds = 0;
   double secDouble = -1.0;
   NSString* sign = nil;
@@ -403,20 +502,20 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 
   self.dateComponents = dateComponents;
   self.milliseconds = milliseconds;
-  
+
   // determine the offset, like from Z, or -08:00:00.0
 
   self.timeZone = nil;
 
-  NSInteger totalOffset = NSUndefinedDateComponent;
+  NSInteger totalOffset = kGTLUndefinedDateComponent;
   self.universalTime = NO;
 
-  if ([sign caseInsensitiveCompare:@"Z"] == NSOrderedSame) {
+  if (sign == nil || [sign caseInsensitiveCompare:@"Z"] == NSOrderedSame) {
 
     self.universalTime = YES;
     totalOffset = 0;
 
-  } else if (sign != nil) {
+  } else {
 
     totalOffset = (60 * offsetMinute) + (60 * 60 * offsetHour);
 
@@ -424,7 +523,7 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 
       if (totalOffset == 0) {
         // special case: offset of -0.00 means undefined offset
-        totalOffset = NSUndefinedDateComponent;
+        totalOffset = kGTLUndefinedDateComponent;
       } else {
         totalOffset *= -1;
       }
@@ -437,15 +536,15 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
 - (BOOL)hasTime {
   NSDateComponents *dateComponents = self.dateComponents;
 
-  BOOL hasTime = ([dateComponents hour] != NSUndefinedDateComponent
-                  && [dateComponents minute] != NSUndefinedDateComponent);
+  BOOL hasTime = ([dateComponents hour] != kGTLUndefinedDateComponent
+                  && [dateComponents minute] != kGTLUndefinedDateComponent);
 
   return hasTime;
 }
 
 - (void)setHasTime:(BOOL)shouldHaveTime {
 
-  // we'll set time values to zero or NSUndefinedDateComponent as appropriate
+  // we'll set time values to zero or kUndefinedDateComponent as appropriate
   BOOL hadTime = self.hasTime;
 
   if (shouldHaveTime && !hadTime) {
@@ -453,15 +552,15 @@ static NSMutableDictionary *gCalendarsForTimeZones = nil;
     [dateComponents_ setMinute:0];
     [dateComponents_ setSecond:0];
     milliseconds_ = 0;
-    offsetSeconds_ = NSUndefinedDateComponent;
+    offsetSeconds_ = kGTLUndefinedDateComponent;
     isUniversalTime_ = NO;
 
   } else if (hadTime && !shouldHaveTime) {
-    [dateComponents_ setHour:NSUndefinedDateComponent];
-    [dateComponents_ setMinute:NSUndefinedDateComponent];
-    [dateComponents_ setSecond:NSUndefinedDateComponent];
+    [dateComponents_ setHour:kGTLUndefinedDateComponent];
+    [dateComponents_ setMinute:kGTLUndefinedDateComponent];
+    [dateComponents_ setSecond:kGTLUndefinedDateComponent];
     milliseconds_ = 0;
-    offsetSeconds_ = NSUndefinedDateComponent;
+    offsetSeconds_ = kGTLUndefinedDateComponent;
     isUniversalTime_ = NO;
     self.timeZone = nil;
   }

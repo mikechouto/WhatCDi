@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Google Civic Information API (civicinfo/us_v1)
+//   Google Civic Information API (civicinfo/v2)
 // Description:
 //   An API for accessing civic information.
 // Documentation:
 //   https://developers.google.com/civic-information
 // Classes:
-//   GTLCivicInfoContest (0 custom class methods, 16 custom properties)
+//   GTLCivicInfoContest (0 custom class methods, 24 custom properties)
 
 #import "GTLCivicInfoContest.h"
 
@@ -42,22 +42,27 @@
 @implementation GTLCivicInfoContest
 @dynamic ballotPlacement, candidates, district, electorateSpecifications,
          identifier, level, numberElected, numberVotingFor, office,
-         primaryParty, referendumSubtitle, referendumTitle, referendumUrl,
-         sources, special, type;
+         primaryParty, referendumBallotResponses, referendumBrief,
+         referendumConStatement, referendumEffectOfAbstain,
+         referendumPassageThreshold, referendumProStatement, referendumSubtitle,
+         referendumText, referendumTitle, referendumUrl, roles, sources,
+         special, type;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLCivicInfoCandidate class], @"candidates",
-      [GTLCivicInfoSource class], @"sources",
-      nil];
+  NSDictionary *map = @{
+    @"candidates" : [GTLCivicInfoCandidate class],
+    @"level" : [NSString class],
+    @"referendumBallotResponses" : [NSString class],
+    @"roles" : [NSString class],
+    @"sources" : [GTLCivicInfoSource class]
+  };
   return map;
 }
 

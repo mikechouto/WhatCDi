@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLDriveUser (0 custom class methods, 5 custom properties)
+//   GTLDriveUser (0 custom class methods, 6 custom properties)
 //   GTLDriveUserPicture (0 custom class methods, 1 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
@@ -47,20 +47,23 @@
 @interface GTLDriveUser : GTLObject
 
 // A plain text displayable name for this user.
-@property (copy) NSString *displayName;
+@property (nonatomic, copy) NSString *displayName;
+
+// The email address of the user.
+@property (nonatomic, copy) NSString *emailAddress;
 
 // Whether this user is the same as the authenticated user for whom the request
 // was made.
-@property (retain) NSNumber *isAuthenticatedUser;  // boolValue
+@property (nonatomic, retain) NSNumber *isAuthenticatedUser;  // boolValue
 
 // This is always drive#user.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // The user's ID as visible in the permissions collection.
-@property (copy) NSString *permissionId;
+@property (nonatomic, copy) NSString *permissionId;
 
 // The user's profile picture.
-@property (retain) GTLDriveUserPicture *picture;
+@property (nonatomic, retain) GTLDriveUserPicture *picture;
 
 @end
 
@@ -73,6 +76,6 @@
 @interface GTLDriveUserPicture : GTLObject
 
 // A URL that points to a profile picture of this user.
-@property (copy) NSString *url;
+@property (nonatomic, copy) NSString *url;
 
 @end

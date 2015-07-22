@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@
 #import "GTLBooksAnnotationsSummary.m"
 #import "GTLBooksBookshelf.m"
 #import "GTLBooksBookshelves.m"
+#import "GTLBooksCategory.m"
 #import "GTLBooksCloudloadingResource.m"
 #import "GTLBooksConcurrentAccessRestriction.m"
 #import "GTLBooksDictlayerdata.m"
@@ -47,10 +48,14 @@
 #import "GTLBooksGeolayerdata.m"
 #import "GTLBooksLayersummaries.m"
 #import "GTLBooksLayersummary.m"
+#import "GTLBooksMetadata.m"
+#import "GTLBooksOffers.m"
 #import "GTLBooksReadingPosition.m"
 #import "GTLBooksRequestAccess.m"
 #import "GTLBooksReview.m"
+#import "GTLBooksUsersettings.m"
 #import "GTLBooksVolume.m"
+#import "GTLBooksVolume2.m"
 #import "GTLBooksVolumeannotation.m"
 #import "GTLBooksVolumeannotations.m"
 #import "GTLBooksVolumes.m"

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,10 +45,11 @@
 
 @interface GTLDoubleClickBidManagerListQueriesResponse : GTLObject
 
-// The kind, fixed to "doubleclickbidmanager#listQueriesResponse".
-@property (copy) NSString *kind;
+// Identifies what kind of resource this is. Value: the fixed string
+// "doubleclickbidmanager#listQueriesResponse".
+@property (nonatomic, copy) NSString *kind;
 
 // Retrieved queries.
-@property (retain) NSArray *queries;  // of GTLDoubleClickBidManagerQuery
+@property (nonatomic, retain) NSArray *queries;  // of GTLDoubleClickBidManagerQuery
 
 @end

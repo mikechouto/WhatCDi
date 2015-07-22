@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   AdSense Management API (adsense/v1.3)
+//   AdSense Management API (adsense/v1.4)
 // Description:
 //   Gives AdSense publishers access to their inventory and the ability to
 //   generate reports
 // Documentation:
 //   https://developers.google.com/adsense/management/
 // Classes:
-//   GTLAdSenseAccount (0 custom class methods, 5 custom properties)
+//   GTLAdSenseAccount (0 custom class methods, 6 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -46,18 +46,21 @@
 
 // Unique identifier of this account.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // Kind of resource this is, in this case adsense#account.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // Name of this account.
-@property (copy) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 // Whether this account is premium.
-@property (retain) NSNumber *premium;  // boolValue
+@property (nonatomic, retain) NSNumber *premium;  // boolValue
 
 // Sub accounts of the this account.
-@property (retain) NSArray *subAccounts;  // of GTLAdSenseAccount
+@property (nonatomic, retain) NSArray *subAccounts;  // of GTLAdSenseAccount
+
+// AdSense timezone of this account.
+@property (nonatomic, copy) NSString *timezone;
 
 @end

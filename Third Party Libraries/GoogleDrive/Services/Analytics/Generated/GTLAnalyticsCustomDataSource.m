@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsCustomDataSource (0 custom class methods, 13 custom properties)
+//   GTLAnalyticsCustomDataSource (0 custom class methods, 15 custom properties)
 //   GTLAnalyticsCustomDataSourceChildLink (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsCustomDataSourceParentLink (0 custom class methods, 2 custom properties)
 
@@ -38,23 +38,22 @@
 //
 
 @implementation GTLAnalyticsCustomDataSource
-@dynamic accountId, childLink, created, descriptionProperty, identifier, kind,
-         name, parentLink, profilesLinked, selfLink, type, updated,
-         webPropertyId;
+@dynamic accountId, childLink, created, descriptionProperty, identifier,
+         importBehavior, kind, name, parentLink, profilesLinked, selfLink, type,
+         updated, uploadType, webPropertyId;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSString class]
-                                forKey:@"profilesLinked"];
+  NSDictionary *map = @{
+    @"profilesLinked" : [NSString class]
+  };
   return map;
 }
 

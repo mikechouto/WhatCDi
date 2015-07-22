@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerBlog (0 custom class methods, 12 custom properties)
+//   GTLBloggerBlog (0 custom class methods, 13 custom properties)
 //   GTLBloggerBlogLocale (0 custom class methods, 3 custom properties)
 //   GTLBloggerBlogPages (0 custom class methods, 2 custom properties)
 //   GTLBloggerBlogPosts (0 custom class methods, 3 custom properties)
@@ -42,14 +42,13 @@
 
 @implementation GTLBloggerBlog
 @dynamic customMetaData, descriptionProperty, identifier, kind, locale, name,
-         pages, posts, published, selfLink, updated, url;
+         pages, posts, published, selfLink, status, updated, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -89,9 +88,9 @@
 @dynamic items, selfLink, totalItems;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBloggerPost class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLBloggerPost class]
+  };
   return map;
 }
 

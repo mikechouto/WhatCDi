@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerPost (0 custom class methods, 17 custom properties)
+//   GTLBloggerPost (0 custom class methods, 19 custom properties)
 //   GTLBloggerPostAuthor (0 custom class methods, 4 custom properties)
 //   GTLBloggerPostBlog (0 custom class methods, 1 custom properties)
 //   GTLBloggerPostImagesItem (0 custom class methods, 1 custom properties)
@@ -44,23 +44,23 @@
 //
 
 @implementation GTLBloggerPost
-@dynamic author, blog, content, customMetaData, identifier, images, kind,
-         labels, location, published, replies, selfLink, status, title,
-         titleLink, updated, url;
+@dynamic author, blog, content, customMetaData, ETag, identifier, images, kind,
+         labels, location, published, readerComments, replies, selfLink, status,
+         title, titleLink, updated, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLBloggerPostImagesItem class], @"images",
-      [NSString class], @"labels",
-      nil];
+  NSDictionary *map = @{
+    @"images" : [GTLBloggerPostImagesItem class],
+    @"labels" : [NSString class]
+  };
   return map;
 }
 
@@ -80,9 +80,9 @@
 @dynamic displayName, identifier, image, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -98,9 +98,9 @@
 @dynamic identifier;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -136,9 +136,9 @@
 @dynamic items, selfLink, totalItems;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBloggerComment class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLBloggerComment class]
+  };
   return map;
 }
 

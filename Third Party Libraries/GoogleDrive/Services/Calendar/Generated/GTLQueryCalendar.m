@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/google-apps/calendar/firstapp
 // Classes:
-//   GTLQueryCalendar (34 custom class methods, 29 custom properties)
+//   GTLQueryCalendar (37 custom class methods, 33 custom properties)
 
 #import "GTLQueryCalendar.h"
 
@@ -49,14 +49,17 @@
 @dynamic alwaysIncludeEmail, calendarExpansionMax, calendarId, colorRgbFormat,
          destination, eventId, fields, groupExpansionMax, iCalUID, items,
          maxAttendees, maxResults, minAccessRole, orderBy, originalStart,
-         pageToken, q, ruleId, sendNotifications, setting, showDeleted,
-         showHidden, showHiddenInvitations, singleEvents, text, timeMax,
-         timeMin, timeZone, updatedMin;
+         pageToken, privateExtendedProperty, q, ruleId, sendNotifications,
+         setting, sharedExtendedProperty, showDeleted, showHidden,
+         showHiddenInvitations, singleEvents, supportsAttachments, syncToken,
+         text, timeMax, timeMin, timeZone, updatedMin;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLCalendarFreeBusyRequestItem class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLCalendarFreeBusyRequestItem class],
+    @"privateExtendedProperty" : [NSString class],
+    @"sharedExtendedProperty" : [NSString class]
+  };
   return map;
 }
 
@@ -64,8 +67,8 @@
 #pragma mark "acl" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForAclDeleteWithCalendarId:(NSString *)calendarId
-                               ruleId:(NSString *)ruleId {
++ (instancetype)queryForAclDeleteWithCalendarId:(NSString *)calendarId
+                                         ruleId:(NSString *)ruleId {
   NSString *methodName = @"calendar.acl.delete";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -73,8 +76,8 @@
   return query;
 }
 
-+ (id)queryForAclGetWithCalendarId:(NSString *)calendarId
-                            ruleId:(NSString *)ruleId {
++ (instancetype)queryForAclGetWithCalendarId:(NSString *)calendarId
+                                      ruleId:(NSString *)ruleId {
   NSString *methodName = @"calendar.acl.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -83,8 +86,8 @@
   return query;
 }
 
-+ (id)queryForAclInsertWithObject:(GTLCalendarAclRule *)object
-                       calendarId:(NSString *)calendarId {
++ (instancetype)queryForAclInsertWithObject:(GTLCalendarAclRule *)object
+                                 calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -97,7 +100,7 @@
   return query;
 }
 
-+ (id)queryForAclListWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForAclListWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.acl.list";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -105,9 +108,9 @@
   return query;
 }
 
-+ (id)queryForAclPatchWithObject:(GTLCalendarAclRule *)object
-                      calendarId:(NSString *)calendarId
-                          ruleId:(NSString *)ruleId {
++ (instancetype)queryForAclPatchWithObject:(GTLCalendarAclRule *)object
+                                calendarId:(NSString *)calendarId
+                                    ruleId:(NSString *)ruleId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -121,9 +124,9 @@
   return query;
 }
 
-+ (id)queryForAclUpdateWithObject:(GTLCalendarAclRule *)object
-                       calendarId:(NSString *)calendarId
-                           ruleId:(NSString *)ruleId {
++ (instancetype)queryForAclUpdateWithObject:(GTLCalendarAclRule *)object
+                                 calendarId:(NSString *)calendarId
+                                     ruleId:(NSString *)ruleId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -137,18 +140,32 @@
   return query;
 }
 
++ (instancetype)queryForAclWatchWithObject:(GTLCalendarChannel *)object
+                                calendarId:(NSString *)calendarId {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"calendar.acl.watch";
+  GTLQueryCalendar *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.calendarId = calendarId;
+  query.expectedObjectClass = [GTLCalendarChannel class];
+  return query;
+}
+
 #pragma mark -
 #pragma mark "calendarList" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForCalendarListDeleteWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarListDeleteWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.calendarList.delete";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
   return query;
 }
 
-+ (id)queryForCalendarListGetWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarListGetWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.calendarList.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -156,7 +173,7 @@
   return query;
 }
 
-+ (id)queryForCalendarListInsertWithObject:(GTLCalendarCalendarListEntry *)object {
++ (instancetype)queryForCalendarListInsertWithObject:(GTLCalendarCalendarListEntry *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -168,15 +185,15 @@
   return query;
 }
 
-+ (id)queryForCalendarListList {
++ (instancetype)queryForCalendarListList {
   NSString *methodName = @"calendar.calendarList.list";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLCalendarCalendarList class];
   return query;
 }
 
-+ (id)queryForCalendarListPatchWithObject:(GTLCalendarCalendarListEntry *)object
-                               calendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarListPatchWithObject:(GTLCalendarCalendarListEntry *)object
+                                         calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -189,8 +206,8 @@
   return query;
 }
 
-+ (id)queryForCalendarListUpdateWithObject:(GTLCalendarCalendarListEntry *)object
-                                calendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarListUpdateWithObject:(GTLCalendarCalendarListEntry *)object
+                                          calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -203,25 +220,37 @@
   return query;
 }
 
++ (instancetype)queryForCalendarListWatchWithObject:(GTLCalendarChannel *)object {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"calendar.calendarList.watch";
+  GTLQueryCalendar *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLCalendarChannel class];
+  return query;
+}
+
 #pragma mark -
 #pragma mark "calendars" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForCalendarsClearWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarsClearWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.calendars.clear";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
   return query;
 }
 
-+ (id)queryForCalendarsDeleteWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarsDeleteWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.calendars.delete";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
   return query;
 }
 
-+ (id)queryForCalendarsGetWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarsGetWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.calendars.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -229,7 +258,7 @@
   return query;
 }
 
-+ (id)queryForCalendarsInsertWithObject:(GTLCalendarCalendar *)object {
++ (instancetype)queryForCalendarsInsertWithObject:(GTLCalendarCalendar *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -241,8 +270,8 @@
   return query;
 }
 
-+ (id)queryForCalendarsPatchWithObject:(GTLCalendarCalendar *)object
-                            calendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarsPatchWithObject:(GTLCalendarCalendar *)object
+                                      calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -255,8 +284,8 @@
   return query;
 }
 
-+ (id)queryForCalendarsUpdateWithObject:(GTLCalendarCalendar *)object
-                             calendarId:(NSString *)calendarId {
++ (instancetype)queryForCalendarsUpdateWithObject:(GTLCalendarCalendar *)object
+                                       calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -273,7 +302,7 @@
 #pragma mark "channels" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForChannelsStopWithObject:(GTLCalendarChannel *)object {
++ (instancetype)queryForChannelsStopWithObject:(GTLCalendarChannel *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -288,7 +317,7 @@
 #pragma mark "colors" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForColorsGet {
++ (instancetype)queryForColorsGet {
   NSString *methodName = @"calendar.colors.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLCalendarColors class];
@@ -299,8 +328,8 @@
 #pragma mark "events" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForEventsDeleteWithCalendarId:(NSString *)calendarId
-                                 eventId:(NSString *)eventId {
++ (instancetype)queryForEventsDeleteWithCalendarId:(NSString *)calendarId
+                                           eventId:(NSString *)eventId {
   NSString *methodName = @"calendar.events.delete";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -308,8 +337,8 @@
   return query;
 }
 
-+ (id)queryForEventsGetWithCalendarId:(NSString *)calendarId
-                              eventId:(NSString *)eventId {
++ (instancetype)queryForEventsGetWithCalendarId:(NSString *)calendarId
+                                        eventId:(NSString *)eventId {
   NSString *methodName = @"calendar.events.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -318,8 +347,8 @@
   return query;
 }
 
-+ (id)queryForEventsImportWithObject:(GTLCalendarEvent *)object
-                          calendarId:(NSString *)calendarId {
++ (instancetype)queryForEventsImportWithObject:(GTLCalendarEvent *)object
+                                    calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -332,8 +361,8 @@
   return query;
 }
 
-+ (id)queryForEventsInsertWithObject:(GTLCalendarEvent *)object
-                          calendarId:(NSString *)calendarId {
++ (instancetype)queryForEventsInsertWithObject:(GTLCalendarEvent *)object
+                                    calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -346,8 +375,8 @@
   return query;
 }
 
-+ (id)queryForEventsInstancesWithCalendarId:(NSString *)calendarId
-                                    eventId:(NSString *)eventId {
++ (instancetype)queryForEventsInstancesWithCalendarId:(NSString *)calendarId
+                                              eventId:(NSString *)eventId {
   NSString *methodName = @"calendar.events.instances";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -356,7 +385,7 @@
   return query;
 }
 
-+ (id)queryForEventsListWithCalendarId:(NSString *)calendarId {
++ (instancetype)queryForEventsListWithCalendarId:(NSString *)calendarId {
   NSString *methodName = @"calendar.events.list";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -364,9 +393,9 @@
   return query;
 }
 
-+ (id)queryForEventsMoveWithCalendarId:(NSString *)calendarId
-                               eventId:(NSString *)eventId
-                           destination:(NSString *)destination {
++ (instancetype)queryForEventsMoveWithCalendarId:(NSString *)calendarId
+                                         eventId:(NSString *)eventId
+                                     destination:(NSString *)destination {
   NSString *methodName = @"calendar.events.move";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -376,9 +405,9 @@
   return query;
 }
 
-+ (id)queryForEventsPatchWithObject:(GTLCalendarEvent *)object
-                         calendarId:(NSString *)calendarId
-                            eventId:(NSString *)eventId {
++ (instancetype)queryForEventsPatchWithObject:(GTLCalendarEvent *)object
+                                   calendarId:(NSString *)calendarId
+                                      eventId:(NSString *)eventId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -392,8 +421,8 @@
   return query;
 }
 
-+ (id)queryForEventsQuickAddWithCalendarId:(NSString *)calendarId
-                                      text:(NSString *)text {
++ (instancetype)queryForEventsQuickAddWithCalendarId:(NSString *)calendarId
+                                                text:(NSString *)text {
   NSString *methodName = @"calendar.events.quickAdd";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.calendarId = calendarId;
@@ -402,9 +431,9 @@
   return query;
 }
 
-+ (id)queryForEventsUpdateWithObject:(GTLCalendarEvent *)object
-                          calendarId:(NSString *)calendarId
-                             eventId:(NSString *)eventId {
++ (instancetype)queryForEventsUpdateWithObject:(GTLCalendarEvent *)object
+                                    calendarId:(NSString *)calendarId
+                                       eventId:(NSString *)eventId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -418,8 +447,8 @@
   return query;
 }
 
-+ (id)queryForEventsWatchWithObject:(GTLCalendarChannel *)object
-                         calendarId:(NSString *)calendarId {
++ (instancetype)queryForEventsWatchWithObject:(GTLCalendarChannel *)object
+                                   calendarId:(NSString *)calendarId {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -436,7 +465,7 @@
 #pragma mark "freebusy" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForFreebusyQuery {
++ (instancetype)queryForFreebusyQuery {
   NSString *methodName = @"calendar.freebusy.query";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLCalendarFreeBusyResponse class];
@@ -447,7 +476,7 @@
 #pragma mark "settings" methods
 // These create a GTLQueryCalendar object.
 
-+ (id)queryForSettingsGetWithSetting:(NSString *)setting {
++ (instancetype)queryForSettingsGetWithSetting:(NSString *)setting {
   NSString *methodName = @"calendar.settings.get";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.setting = setting;
@@ -455,10 +484,22 @@
   return query;
 }
 
-+ (id)queryForSettingsList {
++ (instancetype)queryForSettingsList {
   NSString *methodName = @"calendar.settings.list";
   GTLQueryCalendar *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLCalendarSettings class];
+  return query;
+}
+
++ (instancetype)queryForSettingsWatchWithObject:(GTLCalendarChannel *)object {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"calendar.settings.watch";
+  GTLQueryCalendar *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLCalendarChannel class];
   return query;
 }
 

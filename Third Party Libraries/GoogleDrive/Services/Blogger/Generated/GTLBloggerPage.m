@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerPage (0 custom class methods, 11 custom properties)
+//   GTLBloggerPage (0 custom class methods, 12 custom properties)
 //   GTLBloggerPageAuthor (0 custom class methods, 4 custom properties)
 //   GTLBloggerPageBlog (0 custom class methods, 1 custom properties)
 //   GTLBloggerPageAuthorImage (0 custom class methods, 1 custom properties)
@@ -39,13 +39,14 @@
 //
 
 @implementation GTLBloggerPage
-@dynamic author, blog, content, identifier, kind, published, selfLink, status,
-         title, updated, url;
+@dynamic author, blog, content, ETag, identifier, kind, published, selfLink,
+         status, title, updated, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -65,9 +66,9 @@
 @dynamic displayName, identifier, image, url;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -83,9 +84,9 @@
 @dynamic identifier;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 

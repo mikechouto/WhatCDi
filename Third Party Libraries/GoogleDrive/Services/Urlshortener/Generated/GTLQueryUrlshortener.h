@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 // Description:
 //   Lets you create, inspect, and manage goo.gl short URLs
 // Documentation:
-//   http://code.google.com/apis/urlshortener/v1/getting_started.html
+//   https://developers.google.com/url-shortener/v1/getting_started
 // Classes:
 //   GTLQueryUrlshortener (3 custom class methods, 4 custom properties)
 
@@ -43,14 +43,14 @@
 //
 
 // Selector specifying which fields to include in a partial response.
-@property (copy) NSString *fields;
+@property (nonatomic, copy) NSString *fields;
 
 //
 // Method-specific parameters; see the comments below for more information.
 //
-@property (copy) NSString *projection;
-@property (copy) NSString *shortUrl;
-@property (copy) NSString *startToken;
+@property (nonatomic, copy) NSString *projection;
+@property (nonatomic, copy) NSString *shortUrl;
+@property (nonatomic, copy) NSString *startToken;
 
 #pragma mark -
 #pragma mark "url" methods
@@ -67,15 +67,17 @@
 //        counts.
 //      kGTLUrlshortenerProjectionFull: Returns the creation timestamp and all
 //        available analytics.
+//  Authorization scope(s):
+//   kGTLAuthScopeUrlshortener
 // Fetches a GTLUrlshortenerUrl.
-+ (id)queryForUrlGetWithShortUrl:(NSString *)shortUrl;
++ (instancetype)queryForUrlGetWithShortUrl:(NSString *)shortUrl;
 
 // Method: urlshortener.url.insert
 // Creates a new short URL.
 //  Authorization scope(s):
 //   kGTLAuthScopeUrlshortener
 // Fetches a GTLUrlshortenerUrl.
-+ (id)queryForUrlInsertWithObject:(GTLUrlshortenerUrl *)object;
++ (instancetype)queryForUrlInsertWithObject:(GTLUrlshortenerUrl *)object;
 
 // Method: urlshortener.url.list
 // Retrieves a list of URLs shortened by a user.
@@ -88,6 +90,6 @@
 //  Authorization scope(s):
 //   kGTLAuthScopeUrlshortener
 // Fetches a GTLUrlshortenerUrlHistory.
-+ (id)queryForUrlList;
++ (instancetype)queryForUrlList;
 
 @end

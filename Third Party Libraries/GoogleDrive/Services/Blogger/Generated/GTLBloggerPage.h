@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerPage (0 custom class methods, 11 custom properties)
+//   GTLBloggerPage (0 custom class methods, 12 custom properties)
 //   GTLBloggerPageAuthor (0 custom class methods, 4 custom properties)
 //   GTLBloggerPageBlog (0 custom class methods, 1 custom properties)
 //   GTLBloggerPageAuthorImage (0 custom class methods, 1 custom properties)
@@ -49,39 +49,42 @@
 @interface GTLBloggerPage : GTLObject
 
 // The author of this Page.
-@property (retain) GTLBloggerPageAuthor *author;
+@property (nonatomic, retain) GTLBloggerPageAuthor *author;
 
 // Data about the blog containing this Page.
-@property (retain) GTLBloggerPageBlog *blog;
+@property (nonatomic, retain) GTLBloggerPageBlog *blog;
 
 // The body content of this Page, in HTML.
-@property (copy) NSString *content;
+@property (nonatomic, copy) NSString *content;
+
+// Etag of the resource.
+@property (nonatomic, copy) NSString *ETag;
 
 // The identifier for this resource.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // The kind of this entity. Always blogger#page
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // RFC 3339 date-time when this Page was published.
-@property (retain) GTLDateTime *published;
+@property (nonatomic, retain) GTLDateTime *published;
 
 // The API REST URL to fetch this resource from.
-@property (copy) NSString *selfLink;
+@property (nonatomic, copy) NSString *selfLink;
 
 // The status of the page for admin resources (either LIVE or DRAFT).
-@property (copy) NSString *status;
+@property (nonatomic, copy) NSString *status;
 
 // The title of this entity. This is the name displayed in the Admin user
 // interface.
-@property (copy) NSString *title;
+@property (nonatomic, copy) NSString *title;
 
 // RFC 3339 date-time when this Page was last updated.
-@property (retain) GTLDateTime *updated;
+@property (nonatomic, retain) GTLDateTime *updated;
 
 // The URL that this Page is displayed at.
-@property (copy) NSString *url;
+@property (nonatomic, copy) NSString *url;
 
 @end
 
@@ -94,17 +97,17 @@
 @interface GTLBloggerPageAuthor : GTLObject
 
 // The display name.
-@property (copy) NSString *displayName;
+@property (nonatomic, copy) NSString *displayName;
 
 // The identifier of the Page creator.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // The page author's avatar.
-@property (retain) GTLBloggerPageAuthorImage *image;
+@property (nonatomic, retain) GTLBloggerPageAuthorImage *image;
 
 // The URL of the Page creator's Profile page.
-@property (copy) NSString *url;
+@property (nonatomic, copy) NSString *url;
 
 @end
 
@@ -118,7 +121,7 @@
 
 // The identifier of the blog containing this page.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 @end
 
@@ -131,6 +134,6 @@
 @interface GTLBloggerPageAuthorImage : GTLObject
 
 // The page author's avatar URL.
-@property (copy) NSString *url;
+@property (nonatomic, copy) NSString *url;
 
 @end

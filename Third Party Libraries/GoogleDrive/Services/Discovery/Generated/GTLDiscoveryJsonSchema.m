@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,11 @@
 // Documentation:
 //   https://developers.google.com/discovery/
 // Classes:
-//   GTLDiscoveryJsonSchema (0 custom class methods, 19 custom properties)
+//   GTLDiscoveryJsonSchema (0 custom class methods, 20 custom properties)
 //   GTLDiscoveryJsonSchemaAnnotations (0 custom class methods, 1 custom properties)
 //   GTLDiscoveryJsonSchemaProperties (0 custom class methods, 0 custom properties)
+//   GTLDiscoveryJsonSchemaVariant (0 custom class methods, 2 custom properties)
+//   GTLDiscoveryJsonSchemaVariantMapItem (0 custom class methods, 2 custom properties)
 
 #import "GTLDiscoveryJsonSchema.h"
 
@@ -42,27 +44,25 @@
 @dynamic xRef, additionalPropertiesProperty, annotations, defaultProperty,
          descriptionProperty, enumProperty, enumDescriptions, format,
          identifier, items, location, maximum, minimum, pattern, properties,
-         readOnly, repeated, required, type;
+         readOnly, repeated, required, type, variant;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"additionalProperties", @"additionalPropertiesProperty",
-      @"default", @"defaultProperty",
-      @"description", @"descriptionProperty",
-      @"enum", @"enumProperty",
-      @"id", @"identifier",
-      @"$ref", @"xRef",
-      nil];
+  NSDictionary *map = @{
+    @"additionalPropertiesProperty" : @"additionalProperties",
+    @"defaultProperty" : @"default",
+    @"descriptionProperty" : @"description",
+    @"enumProperty" : @"enum",
+    @"identifier" : @"id",
+    @"xRef" : @"$ref"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"enum",
-      [NSString class], @"enumDescriptions",
-      nil];
+  NSDictionary *map = @{
+    @"enum" : [NSString class],
+    @"enumDescriptions" : [NSString class]
+  };
   return map;
 }
 
@@ -78,9 +78,9 @@
 @dynamic required;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSString class]
-                                forKey:@"required"];
+  NSDictionary *map = @{
+    @"required" : [NSString class]
+  };
   return map;
 }
 
@@ -96,6 +96,43 @@
 
 + (Class)classForAdditionalProperties {
   return [GTLDiscoveryJsonSchema class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLDiscoveryJsonSchemaVariant
+//
+
+@implementation GTLDiscoveryJsonSchemaVariant
+@dynamic discriminant, map;
+
++ (NSDictionary *)arrayPropertyToClassMap {
+  NSDictionary *map = @{
+    @"map" : [GTLDiscoveryJsonSchemaVariantMapItem class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLDiscoveryJsonSchemaVariantMapItem
+//
+
+@implementation GTLDiscoveryJsonSchemaVariantMapItem
+@dynamic xRef, typeValue;
+
++ (NSDictionary *)propertyToJSONKeyMap {
+  NSDictionary *map = @{
+    @"typeValue" : @"type_value",
+    @"xRef" : @"$ref"
+  };
+  return map;
 }
 
 @end

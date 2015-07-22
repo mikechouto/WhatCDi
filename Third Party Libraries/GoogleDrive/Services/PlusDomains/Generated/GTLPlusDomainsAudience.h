@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/+/domains/
 // Classes:
-//   GTLPlusDomainsAudience (0 custom class methods, 4 custom properties)
+//   GTLPlusDomainsAudience (0 custom class methods, 5 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -44,19 +44,23 @@
 @interface GTLPlusDomainsAudience : GTLObject
 
 // ETag of this response for caching purposes.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The access control list entry.
-@property (retain) GTLPlusDomainsAclentryResource *item;
+@property (nonatomic, retain) GTLPlusDomainsAclentryResource *item;
 
 // Identifies this resource as an audience. Value: "plus#audience".
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
+
+// The number of people in this circle. This only applies if entity_type is
+// CIRCLE.
+@property (nonatomic, retain) NSNumber *memberCount;  // unsignedIntValue
 
 // The circle members' visibility as chosen by the owner of the circle. This
 // only applies for items with "item.type" equals "circle". Possible values are:
 // - "public" - Members are visible to the public.
 // - "limited" - Members are visible to a limited audience.
 // - "private" - Members are visible to the owner only.
-@property (copy) NSString *visibility;
+@property (nonatomic, copy) NSString *visibility;
 
 @end

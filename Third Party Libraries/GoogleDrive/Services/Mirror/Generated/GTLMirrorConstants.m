@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,10 @@
 
 #import "GTLMirrorConstants.h"
 
-// OrderBy
+// Authorization scope
+NSString * const kGTLAuthScopeMirrorGlassLocation = @"https://www.googleapis.com/auth/glass.location";
+NSString * const kGTLAuthScopeMirrorGlassTimeline = @"https://www.googleapis.com/auth/glass.timeline";
+
+// GTLQueryMirror - OrderBy
 NSString * const kGTLMirrorOrderByDisplayTime = @"displayTime";
 NSString * const kGTLMirrorOrderByWriteTime   = @"writeTime";

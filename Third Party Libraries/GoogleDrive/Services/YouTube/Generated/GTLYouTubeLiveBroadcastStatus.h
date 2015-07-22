@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeLiveBroadcastStatus (0 custom class methods, 3 custom properties)
+//   GTLYouTubeLiveBroadcastStatus (0 custom class methods, 4 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -43,16 +43,19 @@
 
 // The broadcast's status. The status can be updated using the API's
 // liveBroadcasts.transition method.
-@property (copy) NSString *lifeCycleStatus;
+@property (nonatomic, copy) NSString *lifeCycleStatus;
+
+// Priority of the live broadcast event (internal state).
+@property (nonatomic, copy) NSString *liveBroadcastPriority;
 
 // The broadcast's privacy status. Note that the broadcast represents exactly
 // one YouTube video, so the privacy settings are identical to those supported
 // for videos. In addition, you can set this field by modifying the broadcast
 // resource or by setting the privacyStatus field of the corresponding video
 // resource.
-@property (copy) NSString *privacyStatus;
+@property (nonatomic, copy) NSString *privacyStatus;
 
 // The broadcast's recording status.
-@property (copy) NSString *recordingStatus;
+@property (nonatomic, copy) NSString *recordingStatus;
 
 @end

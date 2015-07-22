@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/google-apps/calendar/firstapp
 // Classes:
-//   GTLCalendarAcl (0 custom class methods, 4 custom properties)
+//   GTLCalendarAcl (0 custom class methods, 5 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -47,16 +47,21 @@
 @interface GTLCalendarAcl : GTLCollectionObject
 
 // ETag of the collection.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // List of rules on the access control list.
-@property (retain) NSArray *items;  // of GTLCalendarAclRule
+@property (nonatomic, retain) NSArray *items;  // of GTLCalendarAclRule
 
 // Type of the collection ("calendar#acl").
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // Token used to access the next page of this result. Omitted if no further
-// results are available.
-@property (copy) NSString *nextPageToken;
+// results are available, in which case nextSyncToken is provided.
+@property (nonatomic, copy) NSString *nextPageToken;
+
+// Token used at a later point in time to retrieve only the entries that have
+// changed since this result was returned. Omitted if further results are
+// available, in which case nextPageToken is provided.
+@property (nonatomic, copy) NSString *nextSyncToken;
 
 @end

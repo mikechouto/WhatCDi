@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,15 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsGaData (0 custom class methods, 15 custom properties)
+//   GTLAnalyticsGaData (0 custom class methods, 16 custom properties)
 //   GTLAnalyticsGaDataColumnHeadersItem (0 custom class methods, 3 custom properties)
+//   GTLAnalyticsGaDataDataTable (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsGaDataProfileInfo (0 custom class methods, 6 custom properties)
 //   GTLAnalyticsGaDataQuery (0 custom class methods, 11 custom properties)
 //   GTLAnalyticsGaDataTotalsForAllResults (0 custom class methods, 0 custom properties)
+//   GTLAnalyticsGaDataDataTableColsItem (0 custom class methods, 3 custom properties)
+//   GTLAnalyticsGaDataDataTableRowsItem (0 custom class methods, 1 custom properties)
+//   GTLAnalyticsGaDataDataTableRowsItemCItem (0 custom class methods, 1 custom properties)
 
 #import "GTLAnalyticsGaData.h"
 
@@ -40,23 +44,22 @@
 //
 
 @implementation GTLAnalyticsGaData
-@dynamic columnHeaders, containsSampledData, identifier, itemsPerPage, kind,
-         nextLink, previousLink, profileInfo, query, rows, sampleSize,
-         sampleSpace, selfLink, totalResults, totalsForAllResults;
+@dynamic columnHeaders, containsSampledData, dataTable, identifier,
+         itemsPerPage, kind, nextLink, previousLink, profileInfo, query, rows,
+         sampleSize, sampleSpace, selfLink, totalResults, totalsForAllResults;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"id"
-                                forKey:@"identifier"];
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLAnalyticsGaDataColumnHeadersItem class], @"columnHeaders",
-      [NSString class], @"rows",
-      nil];
+  NSDictionary *map = @{
+    @"columnHeaders" : [GTLAnalyticsGaDataColumnHeadersItem class],
+    @"rows" : [NSString class]
+  };
   return map;
 }
 
@@ -74,6 +77,25 @@
 
 @implementation GTLAnalyticsGaDataColumnHeadersItem
 @dynamic columnType, dataType, name;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTable
+//
+
+@implementation GTLAnalyticsGaDataDataTable
+@dynamic cols, rows;
+
++ (NSDictionary *)arrayPropertyToClassMap {
+  NSDictionary *map = @{
+    @"cols" : [GTLAnalyticsGaDataDataTableColsItem class],
+    @"rows" : [GTLAnalyticsGaDataDataTableRowsItem class]
+  };
+  return map;
+}
+
 @end
 
 
@@ -98,22 +120,20 @@
          segment, sort, startDate, startIndex;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"end-date", @"endDate",
-      @"max-results", @"maxResults",
-      @"start-date", @"startDate",
-      @"start-index", @"startIndex",
-      nil];
+  NSDictionary *map = @{
+    @"endDate" : @"end-date",
+    @"maxResults" : @"max-results",
+    @"startDate" : @"start-date",
+    @"startIndex" : @"start-index"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"metrics",
-      [NSString class], @"sort",
-      nil];
+  NSDictionary *map = @{
+    @"metrics" : [NSString class],
+    @"sort" : [NSString class]
+  };
   return map;
 }
 
@@ -131,4 +151,50 @@
   return [NSString class];
 }
 
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableColsItem
+//
+
+@implementation GTLAnalyticsGaDataDataTableColsItem
+@dynamic identifier, label, type;
+
++ (NSDictionary *)propertyToJSONKeyMap {
+  NSDictionary *map = @{
+    @"identifier" : @"id"
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableRowsItem
+//
+
+@implementation GTLAnalyticsGaDataDataTableRowsItem
+@dynamic c;
+
++ (NSDictionary *)arrayPropertyToClassMap {
+  NSDictionary *map = @{
+    @"c" : [GTLAnalyticsGaDataDataTableRowsItemCItem class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableRowsItemCItem
+//
+
+@implementation GTLAnalyticsGaDataDataTableRowsItemCItem
+@dynamic v;
 @end

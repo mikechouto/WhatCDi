@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeInvideoPromotion (0 custom class methods, 3 custom properties)
+//   GTLYouTubeInvideoPromotion (0 custom class methods, 4 custom properties)
 
 #import "GTLYouTubeInvideoPromotion.h"
 
@@ -40,12 +40,12 @@
 //
 
 @implementation GTLYouTubeInvideoPromotion
-@dynamic defaultTiming, items, position;
+@dynamic defaultTiming, items, position, useSmartTiming;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLYouTubePromotedItem class]
-                                forKey:@"items"];
+  NSDictionary *map = @{
+    @"items" : [GTLYouTubePromotedItem class]
+  };
   return map;
 }
 

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Google Civic Information API (civicinfo/us_v1)
+//   Google Civic Information API (civicinfo/v2)
 // Description:
 //   An API for accessing civic information.
 // Documentation:
@@ -46,27 +46,27 @@
 @interface GTLCivicInfoCandidate : GTLObject
 
 // The URL for the candidate's campaign web site.
-@property (copy) NSString *candidateUrl;
+@property (nonatomic, copy) NSString *candidateUrl;
 
 // A list of known (social) media channels for this candidate.
-@property (retain) NSArray *channels;  // of GTLCivicInfoChannel
+@property (nonatomic, retain) NSArray *channels;  // of GTLCivicInfoChannel
 
 // The email address for the candidate's campaign.
-@property (copy) NSString *email;
+@property (nonatomic, copy) NSString *email;
 
 // The candidate's name.
-@property (copy) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 // The order the candidate appears on the ballot for this contest.
-@property (retain) NSNumber *orderOnBallot;  // longLongValue
+@property (nonatomic, retain) NSNumber *orderOnBallot;  // longLongValue
 
 // The full name of the party the candidate is a member of.
-@property (copy) NSString *party;
+@property (nonatomic, copy) NSString *party;
 
 // The voice phone number for the candidate's campaign office.
-@property (copy) NSString *phone;
+@property (nonatomic, copy) NSString *phone;
 
 // A URL for a photo of the candidate.
-@property (copy) NSString *photoUrl;
+@property (nonatomic, copy) NSString *photoUrl;
 
 @end

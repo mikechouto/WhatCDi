@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/google-apps/calendar/firstapp
 // Classes:
-//   GTLCalendarEvents (0 custom class methods, 10 custom properties)
+//   GTLCalendarEvents (0 custom class methods, 11 custom properties)
 
 #import "GTLCalendarEvents.h"
 
@@ -40,23 +40,21 @@
 
 @implementation GTLCalendarEvents
 @dynamic accessRole, defaultReminders, descriptionProperty, ETag, items, kind,
-         nextPageToken, summary, timeZone, updated;
+         nextPageToken, nextSyncToken, summary, timeZone, updated;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"description", @"descriptionProperty",
-      @"etag", @"ETag",
-      nil];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description",
+    @"ETag" : @"etag"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [GTLCalendarEventReminder class], @"defaultReminders",
-      [GTLCalendarEvent class], @"items",
-      nil];
+  NSDictionary *map = @{
+    @"defaultReminders" : [GTLCalendarEventReminder class],
+    @"items" : [GTLCalendarEvent class]
+  };
   return map;
 }
 

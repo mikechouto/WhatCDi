@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/blogger/docs/3.0/getting_started
 // Classes:
-//   GTLBloggerBlogPerUserInfo (0 custom class methods, 5 custom properties)
+//   GTLBloggerBlogPerUserInfo (0 custom class methods, 6 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -42,18 +42,21 @@
 @interface GTLBloggerBlogPerUserInfo : GTLObject
 
 // ID of the Blog resource
-@property (copy) NSString *blogId;
+@property (nonatomic, copy) NSString *blogId;
 
 // True if the user has Admin level access to the blog.
-@property (retain) NSNumber *hasAdminAccess;  // boolValue
+@property (nonatomic, retain) NSNumber *hasAdminAccess;  // boolValue
 
 // The kind of this entity. Always blogger#blogPerUserInfo
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
 // The Photo Album Key for the user when adding photos to the blog
-@property (copy) NSString *photosAlbumKey;
+@property (nonatomic, copy) NSString *photosAlbumKey;
+
+// Access permissions that the user has for the blog (ADMIN, AUTHOR, or READER).
+@property (nonatomic, copy) NSString *role;
 
 // ID of the User
-@property (copy) NSString *userId;
+@property (nonatomic, copy) NSString *userId;
 
 @end

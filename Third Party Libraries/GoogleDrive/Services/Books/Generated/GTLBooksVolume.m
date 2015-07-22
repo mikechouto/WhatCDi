@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
 //   GTLBooksVolume (0 custom class methods, 11 custom properties)
-//   GTLBooksVolumeAccessInfo (0 custom class methods, 12 custom properties)
+//   GTLBooksVolumeAccessInfo (0 custom class methods, 14 custom properties)
 //   GTLBooksVolumeLayerInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeRecommendedInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeSaleInfo (0 custom class methods, 8 custom properties)
 //   GTLBooksVolumeSearchInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeUserInfo (0 custom class methods, 11 custom properties)
-//   GTLBooksVolumeVolumeInfo (0 custom class methods, 21 custom properties)
+//   GTLBooksVolumeVolumeInfo (0 custom class methods, 25 custom properties)
 //   GTLBooksVolumeAccessInfoEpub (0 custom class methods, 3 custom properties)
 //   GTLBooksVolumeAccessInfoPdf (0 custom class methods, 3 custom properties)
 //   GTLBooksVolumeLayerInfoLayersItem (0 custom class methods, 2 custom properties)
@@ -66,11 +66,10 @@
          saleInfo, searchInfo, selfLink, userInfo, volumeInfo;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"etag", @"ETag",
-      @"id", @"identifier",
-      nil];
+  NSDictionary *map = @{
+    @"ETag" : @"etag",
+    @"identifier" : @"id"
+  };
   return map;
 }
 
@@ -87,9 +86,10 @@
 //
 
 @implementation GTLBooksVolumeAccessInfo
-@dynamic accessViewStatus, country, downloadAccess, embeddable, epub,
-         explicitOfflineLicenseManagement, pdf, publicDomain,
-         textToSpeechPermission, viewability, viewOrderUrl, webReaderLink;
+@dynamic accessViewStatus, country, downloadAccess, driveImportedContentLink,
+         embeddable, epub, explicitOfflineLicenseManagement, pdf, publicDomain,
+         quoteSharingAllowed, textToSpeechPermission, viewability, viewOrderUrl,
+         webReaderLink;
 @end
 
 
@@ -102,9 +102,9 @@
 @dynamic layers;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBooksVolumeLayerInfoLayersItem class]
-                                forKey:@"layers"];
+  NSDictionary *map = @{
+    @"layers" : [GTLBooksVolumeLayerInfoLayersItem class]
+  };
   return map;
 }
 
@@ -131,9 +131,9 @@
          saleability;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLBooksVolumeSaleInfoOffersItem class]
-                                forKey:@"offers"];
+  NSDictionary *map = @{
+    @"offers" : [GTLBooksVolumeSaleInfoOffersItem class]
+  };
   return map;
 }
 
@@ -161,9 +161,9 @@
          userUploadedVolumeInfo;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"copy"
-                                forKey:@"copyProperty"];
+  NSDictionary *map = @{
+    @"copyProperty" : @"copy"
+  };
   return map;
 }
 
@@ -176,26 +176,26 @@
 //
 
 @implementation GTLBooksVolumeVolumeInfo
-@dynamic authors, averageRating, canonicalVolumeLink, categories,
-         contentVersion, descriptionProperty, dimensions, imageLinks,
-         industryIdentifiers, infoLink, language, mainCategory, pageCount,
-         previewLink, printedPageCount, printType, publishedDate, publisher,
-         ratingsCount, subtitle, title;
+@dynamic allowAnonLogging, authors, averageRating, canonicalVolumeLink,
+         categories, contentVersion, descriptionProperty, dimensions,
+         imageLinks, industryIdentifiers, infoLink, language, mainCategory,
+         maturityRating, pageCount, previewLink, printedPageCount, printType,
+         publishedDate, publisher, ratingsCount, readingModes, samplePageCount,
+         subtitle, title;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"description"
-                                forKey:@"descriptionProperty"];
+  NSDictionary *map = @{
+    @"descriptionProperty" : @"description"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"authors",
-      [NSString class], @"categories",
-      [GTLBooksVolumeVolumeInfoIndustryIdentifiersItem class], @"industryIdentifiers",
-      nil];
+  NSDictionary *map = @{
+    @"authors" : [NSString class],
+    @"categories" : [NSString class],
+    @"industryIdentifiers" : [GTLBooksVolumeVolumeInfoIndustryIdentifiersItem class]
+  };
   return map;
 }
 
@@ -321,9 +321,9 @@
 @dynamic identifierProperty, type;
 
 + (NSDictionary *)propertyToJSONKeyMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"identifier"
-                                forKey:@"identifierProperty"];
+  NSDictionary *map = @{
+    @"identifierProperty" : @"identifier"
+  };
   return map;
 }
 

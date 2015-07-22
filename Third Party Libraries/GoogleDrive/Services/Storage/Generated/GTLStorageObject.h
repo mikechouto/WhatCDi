@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Cloud Storage API (storage/v1beta2)
+//   Cloud Storage API (storage/v1)
 // Description:
 //   Lets you store and retrieve potentially-large, immutable data objects.
 // Documentation:
 //   https://developers.google.com/storage/docs/json_api/
 // Classes:
-//   GTLStorageObject (0 custom class methods, 23 custom properties)
+//   GTLStorageObject (0 custom class methods, 24 custom properties)
 //   GTLStorageObjectMetadata (0 custom class methods, 0 custom properties)
 //   GTLStorageObjectOwner (0 custom class methods, 2 custom properties)
 
@@ -50,78 +50,87 @@
 @interface GTLStorageObject : GTLObject
 
 // Access controls on the object.
-@property (retain) NSArray *acl;  // of GTLStorageObjectAccessControl
+@property (nonatomic, retain) NSArray *acl;  // of GTLStorageObjectAccessControl
 
-// The bucket containing this object.
-@property (copy) NSString *bucket;
+// The name of the bucket containing this object.
+@property (nonatomic, copy) NSString *bucket;
 
 // Cache-Control directive for the object data.
-@property (copy) NSString *cacheControl;
+@property (nonatomic, copy) NSString *cacheControl;
 
 // Number of underlying components that make up this object. Components are
-// accumulated by compose operations and are limited to a count of 32.
-@property (retain) NSNumber *componentCount;  // intValue
+// accumulated by compose operations.
+@property (nonatomic, retain) NSNumber *componentCount;  // intValue
 
 // Content-Disposition of the object data.
-@property (copy) NSString *contentDisposition;
+@property (nonatomic, copy) NSString *contentDisposition;
 
 // Content-Encoding of the object data.
-@property (copy) NSString *contentEncoding;
+@property (nonatomic, copy) NSString *contentEncoding;
 
 // Content-Language of the object data.
-@property (copy) NSString *contentLanguage;
+@property (nonatomic, copy) NSString *contentLanguage;
 
 // Content-Type of the object data.
-@property (copy) NSString *contentType;
+@property (nonatomic, copy) NSString *contentType;
 
-// CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64.
-@property (copy) NSString *crc32c;
+// CRC32c checksum, as described in RFC 4960, Appendix B; encoded using base64
+// in big-endian byte order. For more information about using the CRC32c
+// checksum, see Hashes and ETags: Best Practices.
+@property (nonatomic, copy) NSString *crc32c;
 
 // HTTP 1.1 Entity tag for the object.
-@property (copy) NSString *ETag;
+@property (nonatomic, copy) NSString *ETag;
 
 // The content generation of this object. Used for object versioning.
-@property (retain) NSNumber *generation;  // longLongValue
+@property (nonatomic, retain) NSNumber *generation;  // longLongValue
 
 // The ID of the object.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
-@property (copy) NSString *identifier;
+@property (nonatomic, copy) NSString *identifier;
 
 // The kind of item this is. For objects, this is always storage#object.
-@property (copy) NSString *kind;
+@property (nonatomic, copy) NSString *kind;
 
-// MD5 hash of the data; encoded using base64.
-@property (copy) NSString *md5Hash;
+// MD5 hash of the data; encoded using base64. For more information about using
+// the MD5 hash, see Hashes and ETags: Best Practices.
+@property (nonatomic, copy) NSString *md5Hash;
 
 // Media download link.
-@property (copy) NSString *mediaLink;
+@property (nonatomic, copy) NSString *mediaLink;
 
 // User-provided metadata, in key/value pairs.
-@property (retain) GTLStorageObjectMetadata *metadata;
+@property (nonatomic, retain) GTLStorageObjectMetadata *metadata;
 
-// The generation of the metadata for this object at this generation. Used for
-// metadata versioning. Has no meaning outside of the context of this
-// generation.
-@property (retain) NSNumber *metageneration;  // longLongValue
+// The version of the metadata for this object at this generation. Used for
+// preconditions and for detecting changes in metadata. A metageneration number
+// is only meaningful in the context of a particular generation of a particular
+// object.
+@property (nonatomic, retain) NSNumber *metageneration;  // longLongValue
 
 // The name of this object. Required if not specified by URL parameter.
-@property (copy) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 // The owner of the object. This will always be the uploader of the object.
-@property (retain) GTLStorageObjectOwner *owner;
+@property (nonatomic, retain) GTLStorageObjectOwner *owner;
 
 // The link to this object.
-@property (copy) NSString *selfLink;
+@property (nonatomic, copy) NSString *selfLink;
 
 // Content-Length of the data in bytes.
-@property (retain) NSNumber *size;  // unsignedLongLongValue
+@property (nonatomic, retain) NSNumber *size;  // unsignedLongLongValue
 
-// Deletion time of the object in RFC 3339 format. Will be returned if and only
-// if this version of the object has been deleted.
-@property (retain) GTLDateTime *timeDeleted;
+// Storage class of the object.
+@property (nonatomic, copy) NSString *storageClass;
 
-// Modification time of the object metadata in RFC 3339 format.
-@property (retain) GTLDateTime *updated;
+// The deletion time of the object in RFC 3339 format. Will be returned if and
+// only if this version of the object has been deleted.
+@property (nonatomic, retain) GTLDateTime *timeDeleted;
+
+// The creation or modification time of the object in RFC 3339 format. For
+// buckets with versioning enabled, changing an object's metadata does not
+// change this property.
+@property (nonatomic, retain) GTLDateTime *updated;
 
 @end
 
@@ -147,9 +156,9 @@
 @interface GTLStorageObjectOwner : GTLObject
 
 // The entity, in the form user-userId.
-@property (copy) NSString *entity;
+@property (nonatomic, copy) NSString *entity;
 
 // The ID for the entity.
-@property (copy) NSString *entityId;
+@property (nonatomic, copy) NSString *entityId;
 
 @end

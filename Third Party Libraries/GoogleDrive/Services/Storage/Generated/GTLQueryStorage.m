@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Cloud Storage API (storage/v1beta2)
+//   Cloud Storage API (storage/v1)
 // Description:
 //   Lets you store and retrieve potentially-large, immutable data objects.
 // Documentation:
 //   https://developers.google.com/storage/docs/json_api/
 // Classes:
-//   GTLQueryStorage (34 custom class methods, 30 custom properties)
+//   GTLQueryStorage (35 custom class methods, 36 custom properties)
 //   GTLStorageObjectsComposeSourceObjectsItem (0 custom class methods, 3 custom properties)
 //   GTLStorageObjectsComposeSourceObjectsItemObjectPreconditions (0 custom class methods, 1 custom properties)
 
@@ -41,28 +41,32 @@
 #import "GTLStorageObjectAccessControl.h"
 #import "GTLStorageObjectAccessControls.h"
 #import "GTLStorageObjects.h"
+#import "GTLStorageRewriteResponse.h"
 
 @implementation GTLQueryStorage
 
-@dynamic bucket, delimiter, destination, destinationResource, destinationBucket,
-         destinationObject, entity, fields, generation, ifGenerationMatch,
-         ifGenerationNotMatch, ifMetagenerationMatch, ifMetagenerationNotMatch,
+@dynamic bucket, contentEncoding, delimiter, destination, destinationResource,
+         destinationBucket, destinationObject, destinationPredefinedAcl, entity,
+         fields, generation, ifGenerationMatch, ifGenerationNotMatch,
+         ifMetagenerationMatch, ifMetagenerationNotMatch,
          ifSourceGenerationMatch, ifSourceGenerationNotMatch,
          ifSourceMetagenerationMatch, ifSourceMetagenerationNotMatch, kind,
-         maxResults, name, object, pageToken, prefix, project, projection,
-         sourceBucket, sourceGeneration, sourceObject, sourceObjects, versions;
+         maxBytesRewrittenPerCall, maxResults, name, object, pageToken,
+         predefinedAcl, predefinedDefaultObjectAcl, prefix, project, projection,
+         rewriteToken, sourceBucket, sourceGeneration, sourceObject,
+         sourceObjects, versions;
 
 + (NSDictionary *)parameterNameMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:@"destination_resource"
-                                forKey:@"destinationResource"];
+  NSDictionary *map = @{
+    @"destinationResource" : @"destination_resource"
+  };
   return map;
 }
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLStorageObjectsComposeSourceObjectsItem class]
-                                forKey:@"sourceObjects"];
+  NSDictionary *map = @{
+    @"sourceObjects" : [GTLStorageObjectsComposeSourceObjectsItem class]
+  };
   return map;
 }
 
@@ -70,8 +74,8 @@
 #pragma mark "bucketAccessControls" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForBucketAccessControlsDeleteWithBucket:(NSString *)bucket
-                                            entity:(NSString *)entity {
++ (instancetype)queryForBucketAccessControlsDeleteWithBucket:(NSString *)bucket
+                                                      entity:(NSString *)entity {
   NSString *methodName = @"storage.bucketAccessControls.delete";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -79,8 +83,8 @@
   return query;
 }
 
-+ (id)queryForBucketAccessControlsGetWithBucket:(NSString *)bucket
-                                         entity:(NSString *)entity {
++ (instancetype)queryForBucketAccessControlsGetWithBucket:(NSString *)bucket
+                                                   entity:(NSString *)entity {
   NSString *methodName = @"storage.bucketAccessControls.get";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -89,8 +93,8 @@
   return query;
 }
 
-+ (id)queryForBucketAccessControlsInsertWithObject:(GTLStorageBucketAccessControl *)object
-                                            bucket:(NSString *)bucket {
++ (instancetype)queryForBucketAccessControlsInsertWithObject:(GTLStorageBucketAccessControl *)object
+                                                      bucket:(NSString *)bucket {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -103,7 +107,7 @@
   return query;
 }
 
-+ (id)queryForBucketAccessControlsListWithBucket:(NSString *)bucket {
++ (instancetype)queryForBucketAccessControlsListWithBucket:(NSString *)bucket {
   NSString *methodName = @"storage.bucketAccessControls.list";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -111,9 +115,9 @@
   return query;
 }
 
-+ (id)queryForBucketAccessControlsPatchWithObject:(GTLStorageBucketAccessControl *)object
-                                           bucket:(NSString *)bucket
-                                           entity:(NSString *)entity {
++ (instancetype)queryForBucketAccessControlsPatchWithObject:(GTLStorageBucketAccessControl *)object
+                                                     bucket:(NSString *)bucket
+                                                     entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -127,9 +131,9 @@
   return query;
 }
 
-+ (id)queryForBucketAccessControlsUpdateWithObject:(GTLStorageBucketAccessControl *)object
-                                            bucket:(NSString *)bucket
-                                            entity:(NSString *)entity {
++ (instancetype)queryForBucketAccessControlsUpdateWithObject:(GTLStorageBucketAccessControl *)object
+                                                      bucket:(NSString *)bucket
+                                                      entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -147,14 +151,14 @@
 #pragma mark "buckets" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForBucketsDeleteWithBucket:(NSString *)bucket {
++ (instancetype)queryForBucketsDeleteWithBucket:(NSString *)bucket {
   NSString *methodName = @"storage.buckets.delete";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
   return query;
 }
 
-+ (id)queryForBucketsGetWithBucket:(NSString *)bucket {
++ (instancetype)queryForBucketsGetWithBucket:(NSString *)bucket {
   NSString *methodName = @"storage.buckets.get";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -162,8 +166,8 @@
   return query;
 }
 
-+ (id)queryForBucketsInsertWithObject:(GTLStorageBucket *)object
-                              project:(NSString *)project {
++ (instancetype)queryForBucketsInsertWithObject:(GTLStorageBucket *)object
+                                        project:(NSString *)project {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -176,7 +180,7 @@
   return query;
 }
 
-+ (id)queryForBucketsListWithProject:(NSString *)project {
++ (instancetype)queryForBucketsListWithProject:(NSString *)project {
   NSString *methodName = @"storage.buckets.list";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.project = project;
@@ -184,8 +188,8 @@
   return query;
 }
 
-+ (id)queryForBucketsPatchWithObject:(GTLStorageBucket *)object
-                              bucket:(NSString *)bucket {
++ (instancetype)queryForBucketsPatchWithObject:(GTLStorageBucket *)object
+                                        bucket:(NSString *)bucket {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -198,8 +202,8 @@
   return query;
 }
 
-+ (id)queryForBucketsUpdateWithObject:(GTLStorageBucket *)object
-                               bucket:(NSString *)bucket {
++ (instancetype)queryForBucketsUpdateWithObject:(GTLStorageBucket *)object
+                                         bucket:(NSString *)bucket {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -216,7 +220,7 @@
 #pragma mark "channels" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForChannelsStopWithObject:(GTLStorageChannel *)object {
++ (instancetype)queryForChannelsStopWithObject:(GTLStorageChannel *)object {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -231,8 +235,8 @@
 #pragma mark "defaultObjectAccessControls" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForDefaultObjectAccessControlsDeleteWithBucket:(NSString *)bucket
-                                                   entity:(NSString *)entity {
++ (instancetype)queryForDefaultObjectAccessControlsDeleteWithBucket:(NSString *)bucket
+                                                             entity:(NSString *)entity {
   NSString *methodName = @"storage.defaultObjectAccessControls.delete";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -240,8 +244,8 @@
   return query;
 }
 
-+ (id)queryForDefaultObjectAccessControlsGetWithBucket:(NSString *)bucket
-                                                entity:(NSString *)entity {
++ (instancetype)queryForDefaultObjectAccessControlsGetWithBucket:(NSString *)bucket
+                                                          entity:(NSString *)entity {
   NSString *methodName = @"storage.defaultObjectAccessControls.get";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -250,8 +254,8 @@
   return query;
 }
 
-+ (id)queryForDefaultObjectAccessControlsInsertWithObject:(GTLStorageObjectAccessControl *)object
-                                                   bucket:(NSString *)bucket {
++ (instancetype)queryForDefaultObjectAccessControlsInsertWithObject:(GTLStorageObjectAccessControl *)object
+                                                             bucket:(NSString *)bucket {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -264,7 +268,7 @@
   return query;
 }
 
-+ (id)queryForDefaultObjectAccessControlsListWithBucket:(NSString *)bucket {
++ (instancetype)queryForDefaultObjectAccessControlsListWithBucket:(NSString *)bucket {
   NSString *methodName = @"storage.defaultObjectAccessControls.list";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -272,9 +276,9 @@
   return query;
 }
 
-+ (id)queryForDefaultObjectAccessControlsPatchWithObject:(GTLStorageObjectAccessControl *)object
-                                                  bucket:(NSString *)bucket
-                                                  entity:(NSString *)entity {
++ (instancetype)queryForDefaultObjectAccessControlsPatchWithObject:(GTLStorageObjectAccessControl *)object
+                                                            bucket:(NSString *)bucket
+                                                            entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -288,9 +292,9 @@
   return query;
 }
 
-+ (id)queryForDefaultObjectAccessControlsUpdateWithObject:(GTLStorageObjectAccessControl *)object
-                                                   bucket:(NSString *)bucket
-                                                   entity:(NSString *)entity {
++ (instancetype)queryForDefaultObjectAccessControlsUpdateWithObject:(GTLStorageObjectAccessControl *)object
+                                                             bucket:(NSString *)bucket
+                                                             entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -308,9 +312,9 @@
 #pragma mark "objectAccessControls" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForObjectAccessControlsDeleteWithBucket:(NSString *)bucket
-                                            object:(NSString *)object_param
-                                            entity:(NSString *)entity {
++ (instancetype)queryForObjectAccessControlsDeleteWithBucket:(NSString *)bucket
+                                                      object:(NSString *)object_param
+                                                      entity:(NSString *)entity {
   NSString *methodName = @"storage.objectAccessControls.delete";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -319,9 +323,9 @@
   return query;
 }
 
-+ (id)queryForObjectAccessControlsGetWithBucket:(NSString *)bucket
-                                         object:(NSString *)object_param
-                                         entity:(NSString *)entity {
++ (instancetype)queryForObjectAccessControlsGetWithBucket:(NSString *)bucket
+                                                   object:(NSString *)object_param
+                                                   entity:(NSString *)entity {
   NSString *methodName = @"storage.objectAccessControls.get";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -331,9 +335,9 @@
   return query;
 }
 
-+ (id)queryForObjectAccessControlsInsertWithObject:(GTLStorageObjectAccessControl *)object
-                                            bucket:(NSString *)bucket
-                                            object:(NSString *)object_param {
++ (instancetype)queryForObjectAccessControlsInsertWithObject:(GTLStorageObjectAccessControl *)object
+                                                      bucket:(NSString *)bucket
+                                                      object:(NSString *)object_param {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -347,8 +351,8 @@
   return query;
 }
 
-+ (id)queryForObjectAccessControlsListWithBucket:(NSString *)bucket
-                                          object:(NSString *)object_param {
++ (instancetype)queryForObjectAccessControlsListWithBucket:(NSString *)bucket
+                                                    object:(NSString *)object_param {
   NSString *methodName = @"storage.objectAccessControls.list";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -357,10 +361,10 @@
   return query;
 }
 
-+ (id)queryForObjectAccessControlsPatchWithObject:(GTLStorageObjectAccessControl *)object
-                                           bucket:(NSString *)bucket
-                                           object:(NSString *)object_param
-                                           entity:(NSString *)entity {
++ (instancetype)queryForObjectAccessControlsPatchWithObject:(GTLStorageObjectAccessControl *)object
+                                                     bucket:(NSString *)bucket
+                                                     object:(NSString *)object_param
+                                                     entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -375,10 +379,10 @@
   return query;
 }
 
-+ (id)queryForObjectAccessControlsUpdateWithObject:(GTLStorageObjectAccessControl *)object
-                                            bucket:(NSString *)bucket
-                                            object:(NSString *)object_param
-                                            entity:(NSString *)entity {
++ (instancetype)queryForObjectAccessControlsUpdateWithObject:(GTLStorageObjectAccessControl *)object
+                                                      bucket:(NSString *)bucket
+                                                      object:(NSString *)object_param
+                                                      entity:(NSString *)entity {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -397,8 +401,8 @@
 #pragma mark "objects" methods
 // These create a GTLQueryStorage object.
 
-+ (id)queryForObjectsComposeWithDestinationBucket:(NSString *)destinationBucket
-                                destinationObject:(NSString *)destinationObject {
++ (instancetype)queryForObjectsComposeWithDestinationBucket:(NSString *)destinationBucket
+                                          destinationObject:(NSString *)destinationObject {
   NSString *methodName = @"storage.objects.compose";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.destinationBucket = destinationBucket;
@@ -407,10 +411,10 @@
   return query;
 }
 
-+ (id)queryForObjectsCopyWithSourceBucket:(NSString *)sourceBucket
-                             sourceObject:(NSString *)sourceObject
-                        destinationBucket:(NSString *)destinationBucket
-                        destinationObject:(NSString *)destinationObject {
++ (instancetype)queryForObjectsCopyWithSourceBucket:(NSString *)sourceBucket
+                                       sourceObject:(NSString *)sourceObject
+                                  destinationBucket:(NSString *)destinationBucket
+                                  destinationObject:(NSString *)destinationObject {
   NSString *methodName = @"storage.objects.copy";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.sourceBucket = sourceBucket;
@@ -421,8 +425,8 @@
   return query;
 }
 
-+ (id)queryForObjectsDeleteWithBucket:(NSString *)bucket
-                               object:(NSString *)object_param {
++ (instancetype)queryForObjectsDeleteWithBucket:(NSString *)bucket
+                                         object:(NSString *)object_param {
   NSString *methodName = @"storage.objects.delete";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -430,8 +434,8 @@
   return query;
 }
 
-+ (id)queryForObjectsGetWithBucket:(NSString *)bucket
-                            object:(NSString *)object_param {
++ (instancetype)queryForObjectsGetWithBucket:(NSString *)bucket
+                                      object:(NSString *)object_param {
   NSString *methodName = @"storage.objects.get";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -440,9 +444,9 @@
   return query;
 }
 
-+ (id)queryForObjectsInsertWithObject:(GTLStorageObject *)object
-                               bucket:(NSString *)bucket
-                     uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
++ (instancetype)queryForObjectsInsertWithObject:(GTLStorageObject *)object
+                                         bucket:(NSString *)bucket
+                               uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -456,7 +460,7 @@
   return query;
 }
 
-+ (id)queryForObjectsListWithBucket:(NSString *)bucket {
++ (instancetype)queryForObjectsListWithBucket:(NSString *)bucket {
   NSString *methodName = @"storage.objects.list";
   GTLQueryStorage *query = [self queryWithMethodName:methodName];
   query.bucket = bucket;
@@ -464,9 +468,9 @@
   return query;
 }
 
-+ (id)queryForObjectsPatchWithObject:(GTLStorageObject *)object
-                              bucket:(NSString *)bucket
-                              object:(NSString *)object_param {
++ (instancetype)queryForObjectsPatchWithObject:(GTLStorageObject *)object
+                                        bucket:(NSString *)bucket
+                                        object:(NSString *)object_param {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -480,9 +484,23 @@
   return query;
 }
 
-+ (id)queryForObjectsUpdateWithObject:(GTLStorageObject *)object
-                               bucket:(NSString *)bucket
-                               object:(NSString *)object_param {
++ (instancetype)queryForObjectsRewriteWithSourceBucket:(NSString *)sourceBucket
+                                          sourceObject:(NSString *)sourceObject
+                                     destinationBucket:(NSString *)destinationBucket
+                                     destinationObject:(NSString *)destinationObject {
+  NSString *methodName = @"storage.objects.rewrite";
+  GTLQueryStorage *query = [self queryWithMethodName:methodName];
+  query.sourceBucket = sourceBucket;
+  query.sourceObject = sourceObject;
+  query.destinationBucket = destinationBucket;
+  query.destinationObject = destinationObject;
+  query.expectedObjectClass = [GTLStorageRewriteResponse class];
+  return query;
+}
+
++ (instancetype)queryForObjectsUpdateWithObject:(GTLStorageObject *)object
+                                         bucket:(NSString *)bucket
+                                         object:(NSString *)object_param {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;
@@ -496,8 +514,8 @@
   return query;
 }
 
-+ (id)queryForObjectsWatchAllWithObject:(GTLStorageChannel *)object
-                                 bucket:(NSString *)bucket {
++ (instancetype)queryForObjectsWatchAllWithObject:(GTLStorageChannel *)object
+                                           bucket:(NSString *)bucket {
   if (object == nil) {
     GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
     return nil;

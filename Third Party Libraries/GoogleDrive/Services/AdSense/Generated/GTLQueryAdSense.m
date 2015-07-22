@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2015 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   AdSense Management API (adsense/v1.3)
+//   AdSense Management API (adsense/v1.4)
 // Description:
 //   Gives AdSense publishers access to their inventory and the ability to
 //   generate reports
 // Documentation:
 //   https://developers.google.com/adsense/management/
 // Classes:
-//   GTLQueryAdSense (34 custom class methods, 21 custom properties)
+//   GTLQueryAdSense (38 custom class methods, 22 custom properties)
 
 #import "GTLQueryAdSense.h"
 
@@ -42,6 +42,7 @@
 #import "GTLAdSenseCustomChannel.h"
 #import "GTLAdSenseCustomChannels.h"
 #import "GTLAdSenseMetadata.h"
+#import "GTLAdSensePayments.h"
 #import "GTLAdSenseSavedAdStyle.h"
 #import "GTLAdSenseSavedAdStyles.h"
 #import "GTLAdSenseSavedReports.h"
@@ -49,19 +50,18 @@
 
 @implementation GTLQueryAdSense
 
-@dynamic accountId, adClientId, adUnitId, currency, customChannelId, dimension,
-         endDate, fields, filter, includeInactive, locale, maxResults, metric,
-         pageToken, savedAdStyleId, savedReportId, sort, startDate, startIndex,
-         tree, useTimezoneReporting;
+@dynamic accountId, adClientId, adUnitId, alertId, currency, customChannelId,
+         dimension, endDate, fields, filter, includeInactive, locale,
+         maxResults, metric, pageToken, savedAdStyleId, savedReportId, sort,
+         startDate, startIndex, tree, useTimezoneReporting;
 
 + (NSDictionary *)arrayPropertyToClassMap {
-  NSDictionary *map =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSString class], @"dimension",
-      [NSString class], @"filter",
-      [NSString class], @"metric",
-      [NSString class], @"sort",
-      nil];
+  NSDictionary *map = @{
+    @"dimension" : [NSString class],
+    @"filter" : [NSString class],
+    @"metric" : [NSString class],
+    @"sort" : [NSString class]
+  };
   return map;
 }
 
@@ -69,7 +69,7 @@
 #pragma mark "accounts.adclients" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsAdclientsListWithAccountId:(NSString *)accountId {
++ (instancetype)queryForAccountsAdclientsListWithAccountId:(NSString *)accountId {
   NSString *methodName = @"adsense.accounts.adclients.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -81,9 +81,9 @@
 #pragma mark "accounts.adunits.customchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsAdunitsCustomchannelsListWithAccountId:(NSString *)accountId
-                                                  adClientId:(NSString *)adClientId
-                                                    adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAccountsAdunitsCustomchannelsListWithAccountId:(NSString *)accountId
+                                                            adClientId:(NSString *)adClientId
+                                                              adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.accounts.adunits.customchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -97,9 +97,9 @@
 #pragma mark "accounts.adunits" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsAdunitsGetWithAccountId:(NSString *)accountId
-                                   adClientId:(NSString *)adClientId
-                                     adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAccountsAdunitsGetWithAccountId:(NSString *)accountId
+                                             adClientId:(NSString *)adClientId
+                                               adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.accounts.adunits.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -109,9 +109,9 @@
   return query;
 }
 
-+ (id)queryForAccountsAdunitsGetAdCodeWithAccountId:(NSString *)accountId
-                                         adClientId:(NSString *)adClientId
-                                           adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAccountsAdunitsGetAdCodeWithAccountId:(NSString *)accountId
+                                                   adClientId:(NSString *)adClientId
+                                                     adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.accounts.adunits.getAdCode";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -121,8 +121,8 @@
   return query;
 }
 
-+ (id)queryForAccountsAdunitsListWithAccountId:(NSString *)accountId
-                                    adClientId:(NSString *)adClientId {
++ (instancetype)queryForAccountsAdunitsListWithAccountId:(NSString *)accountId
+                                              adClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.accounts.adunits.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -135,7 +135,16 @@
 #pragma mark "accounts.alerts" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsAlertsListWithAccountId:(NSString *)accountId {
++ (instancetype)queryForAccountsAlertsDeleteWithAccountId:(NSString *)accountId
+                                                  alertId:(NSString *)alertId {
+  NSString *methodName = @"adsense.accounts.alerts.delete";
+  GTLQueryAdSense *query = [self queryWithMethodName:methodName];
+  query.accountId = accountId;
+  query.alertId = alertId;
+  return query;
+}
+
++ (instancetype)queryForAccountsAlertsListWithAccountId:(NSString *)accountId {
   NSString *methodName = @"adsense.accounts.alerts.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -147,9 +156,9 @@
 #pragma mark "accounts.customchannels.adunits" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsCustomchannelsAdunitsListWithAccountId:(NSString *)accountId
-                                                  adClientId:(NSString *)adClientId
-                                             customChannelId:(NSString *)customChannelId {
++ (instancetype)queryForAccountsCustomchannelsAdunitsListWithAccountId:(NSString *)accountId
+                                                            adClientId:(NSString *)adClientId
+                                                       customChannelId:(NSString *)customChannelId {
   NSString *methodName = @"adsense.accounts.customchannels.adunits.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -163,9 +172,9 @@
 #pragma mark "accounts.customchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsCustomchannelsGetWithAccountId:(NSString *)accountId
-                                          adClientId:(NSString *)adClientId
-                                     customChannelId:(NSString *)customChannelId {
++ (instancetype)queryForAccountsCustomchannelsGetWithAccountId:(NSString *)accountId
+                                                    adClientId:(NSString *)adClientId
+                                               customChannelId:(NSString *)customChannelId {
   NSString *methodName = @"adsense.accounts.customchannels.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -175,8 +184,8 @@
   return query;
 }
 
-+ (id)queryForAccountsCustomchannelsListWithAccountId:(NSString *)accountId
-                                           adClientId:(NSString *)adClientId {
++ (instancetype)queryForAccountsCustomchannelsListWithAccountId:(NSString *)accountId
+                                                     adClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.accounts.customchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -189,7 +198,7 @@
 #pragma mark "accounts" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsGetWithAccountId:(NSString *)accountId {
++ (instancetype)queryForAccountsGetWithAccountId:(NSString *)accountId {
   NSString *methodName = @"adsense.accounts.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -197,7 +206,7 @@
   return query;
 }
 
-+ (id)queryForAccountsList {
++ (instancetype)queryForAccountsList {
   NSString *methodName = @"adsense.accounts.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseAccounts class];
@@ -205,12 +214,24 @@
 }
 
 #pragma mark -
+#pragma mark "accounts.payments" methods
+// These create a GTLQueryAdSense object.
+
++ (instancetype)queryForAccountsPaymentsListWithAccountId:(NSString *)accountId {
+  NSString *methodName = @"adsense.accounts.payments.list";
+  GTLQueryAdSense *query = [self queryWithMethodName:methodName];
+  query.accountId = accountId;
+  query.expectedObjectClass = [GTLAdSensePayments class];
+  return query;
+}
+
+#pragma mark -
 #pragma mark "accounts.reports" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsReportsGenerateWithAccountId:(NSString *)accountId
-                                         startDate:(NSString *)startDate
-                                           endDate:(NSString *)endDate {
++ (instancetype)queryForAccountsReportsGenerateWithAccountId:(NSString *)accountId
+                                                   startDate:(NSString *)startDate
+                                                     endDate:(NSString *)endDate {
   NSString *methodName = @"adsense.accounts.reports.generate";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -224,8 +245,8 @@
 #pragma mark "accounts.reports.saved" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsReportsSavedGenerateWithAccountId:(NSString *)accountId
-                                          savedReportId:(NSString *)savedReportId {
++ (instancetype)queryForAccountsReportsSavedGenerateWithAccountId:(NSString *)accountId
+                                                    savedReportId:(NSString *)savedReportId {
   NSString *methodName = @"adsense.accounts.reports.saved.generate";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -234,7 +255,7 @@
   return query;
 }
 
-+ (id)queryForAccountsReportsSavedListWithAccountId:(NSString *)accountId {
++ (instancetype)queryForAccountsReportsSavedListWithAccountId:(NSString *)accountId {
   NSString *methodName = @"adsense.accounts.reports.saved.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -246,8 +267,8 @@
 #pragma mark "accounts.savedadstyles" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsSavedadstylesGetWithAccountId:(NSString *)accountId
-                                     savedAdStyleId:(NSString *)savedAdStyleId {
++ (instancetype)queryForAccountsSavedadstylesGetWithAccountId:(NSString *)accountId
+                                               savedAdStyleId:(NSString *)savedAdStyleId {
   NSString *methodName = @"adsense.accounts.savedadstyles.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -256,7 +277,7 @@
   return query;
 }
 
-+ (id)queryForAccountsSavedadstylesListWithAccountId:(NSString *)accountId {
++ (instancetype)queryForAccountsSavedadstylesListWithAccountId:(NSString *)accountId {
   NSString *methodName = @"adsense.accounts.savedadstyles.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -268,8 +289,8 @@
 #pragma mark "accounts.urlchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAccountsUrlchannelsListWithAccountId:(NSString *)accountId
-                                        adClientId:(NSString *)adClientId {
++ (instancetype)queryForAccountsUrlchannelsListWithAccountId:(NSString *)accountId
+                                                  adClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.accounts.urlchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.accountId = accountId;
@@ -282,7 +303,7 @@
 #pragma mark "adclients" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAdclientsList {
++ (instancetype)queryForAdclientsList {
   NSString *methodName = @"adsense.adclients.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseAdClients class];
@@ -293,8 +314,8 @@
 #pragma mark "adunits.customchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAdunitsCustomchannelsListWithAdClientId:(NSString *)adClientId
-                                             adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAdunitsCustomchannelsListWithAdClientId:(NSString *)adClientId
+                                                       adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.adunits.customchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -307,8 +328,8 @@
 #pragma mark "adunits" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAdunitsGetWithAdClientId:(NSString *)adClientId
-                              adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAdunitsGetWithAdClientId:(NSString *)adClientId
+                                        adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.adunits.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -317,8 +338,8 @@
   return query;
 }
 
-+ (id)queryForAdunitsGetAdCodeWithAdClientId:(NSString *)adClientId
-                                    adUnitId:(NSString *)adUnitId {
++ (instancetype)queryForAdunitsGetAdCodeWithAdClientId:(NSString *)adClientId
+                                              adUnitId:(NSString *)adUnitId {
   NSString *methodName = @"adsense.adunits.getAdCode";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -327,7 +348,7 @@
   return query;
 }
 
-+ (id)queryForAdunitsListWithAdClientId:(NSString *)adClientId {
++ (instancetype)queryForAdunitsListWithAdClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.adunits.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -339,7 +360,14 @@
 #pragma mark "alerts" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForAlertsList {
++ (instancetype)queryForAlertsDeleteWithAlertId:(NSString *)alertId {
+  NSString *methodName = @"adsense.alerts.delete";
+  GTLQueryAdSense *query = [self queryWithMethodName:methodName];
+  query.alertId = alertId;
+  return query;
+}
+
++ (instancetype)queryForAlertsList {
   NSString *methodName = @"adsense.alerts.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseAlerts class];
@@ -350,8 +378,8 @@
 #pragma mark "customchannels.adunits" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForCustomchannelsAdunitsListWithAdClientId:(NSString *)adClientId
-                                      customChannelId:(NSString *)customChannelId {
++ (instancetype)queryForCustomchannelsAdunitsListWithAdClientId:(NSString *)adClientId
+                                                customChannelId:(NSString *)customChannelId {
   NSString *methodName = @"adsense.customchannels.adunits.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -364,8 +392,8 @@
 #pragma mark "customchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForCustomchannelsGetWithAdClientId:(NSString *)adClientId
-                              customChannelId:(NSString *)customChannelId {
++ (instancetype)queryForCustomchannelsGetWithAdClientId:(NSString *)adClientId
+                                        customChannelId:(NSString *)customChannelId {
   NSString *methodName = @"adsense.customchannels.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -374,7 +402,7 @@
   return query;
 }
 
-+ (id)queryForCustomchannelsListWithAdClientId:(NSString *)adClientId {
++ (instancetype)queryForCustomchannelsListWithAdClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.customchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
@@ -386,7 +414,7 @@
 #pragma mark "metadata.dimensions" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForMetadataDimensionsList {
++ (instancetype)queryForMetadataDimensionsList {
   NSString *methodName = @"adsense.metadata.dimensions.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseMetadata class];
@@ -397,7 +425,7 @@
 #pragma mark "metadata.metrics" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForMetadataMetricsList {
++ (instancetype)queryForMetadataMetricsList {
   NSString *methodName = @"adsense.metadata.metrics.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseMetadata class];
@@ -405,11 +433,22 @@
 }
 
 #pragma mark -
+#pragma mark "payments" methods
+// These create a GTLQueryAdSense object.
+
++ (instancetype)queryForPaymentsList {
+  NSString *methodName = @"adsense.payments.list";
+  GTLQueryAdSense *query = [self queryWithMethodName:methodName];
+  query.expectedObjectClass = [GTLAdSensePayments class];
+  return query;
+}
+
+#pragma mark -
 #pragma mark "reports" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForReportsGenerateWithStartDate:(NSString *)startDate
-                                   endDate:(NSString *)endDate {
++ (instancetype)queryForReportsGenerateWithStartDate:(NSString *)startDate
+                                             endDate:(NSString *)endDate {
   NSString *methodName = @"adsense.reports.generate";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.startDate = startDate;
@@ -422,7 +461,7 @@
 #pragma mark "reports.saved" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForReportsSavedGenerateWithSavedReportId:(NSString *)savedReportId {
++ (instancetype)queryForReportsSavedGenerateWithSavedReportId:(NSString *)savedReportId {
   NSString *methodName = @"adsense.reports.saved.generate";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.savedReportId = savedReportId;
@@ -430,7 +469,7 @@
   return query;
 }
 
-+ (id)queryForReportsSavedList {
++ (instancetype)queryForReportsSavedList {
   NSString *methodName = @"adsense.reports.saved.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseSavedReports class];
@@ -441,7 +480,7 @@
 #pragma mark "savedadstyles" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForSavedadstylesGetWithSavedAdStyleId:(NSString *)savedAdStyleId {
++ (instancetype)queryForSavedadstylesGetWithSavedAdStyleId:(NSString *)savedAdStyleId {
   NSString *methodName = @"adsense.savedadstyles.get";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.savedAdStyleId = savedAdStyleId;
@@ -449,7 +488,7 @@
   return query;
 }
 
-+ (id)queryForSavedadstylesList {
++ (instancetype)queryForSavedadstylesList {
   NSString *methodName = @"adsense.savedadstyles.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLAdSenseSavedAdStyles class];
@@ -460,7 +499,7 @@
 #pragma mark "urlchannels" methods
 // These create a GTLQueryAdSense object.
 
-+ (id)queryForUrlchannelsListWithAdClientId:(NSString *)adClientId {
++ (instancetype)queryForUrlchannelsListWithAdClientId:(NSString *)adClientId {
   NSString *methodName = @"adsense.urlchannels.list";
   GTLQueryAdSense *query = [self queryWithMethodName:methodName];
   query.adClientId = adClientId;
