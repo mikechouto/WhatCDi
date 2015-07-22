@@ -53,7 +53,6 @@
 		207EF72D175829CD006755AB /* ProfileJoinedDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 207EF72C175829CD006755AB /* ProfileJoinedDateView.m */; };
 		207EF73017582F4E006755AB /* ProfileRatioCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207EF72F17582F4E006755AB /* ProfileRatioCell.m */; };
 		207EF733175832F7006755AB /* ProfileAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 207EF732175832F7006755AB /* ProfileAvatarCell.m */; };
-		207F4054176019360031E726 /* Dropbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 207F4053176019360031E726 /* Dropbox.m */; };
 		208C359A17B1DD4500997E4A /* MenuTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 208C359917B1DD4500997E4A /* MenuTableHeader.m */; };
 		2094746A178CDBFA00989FDE /* ForumTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20947469178CDBFA00989FDE /* ForumTableViewCell.m */; };
 		2095EDE4176CD0560071F1D9 /* ArtistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2095EDE3176CD0560071F1D9 /* ArtistTableViewCell.m */; };
@@ -142,7 +141,6 @@
 		4F3A86251797403800EC28B5 /* WCDForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A86241797403800EC28B5 /* WCDForum.m */; };
 		4F3A8628179740AE00EC28B5 /* WCDThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A8627179740AE00EC28B5 /* WCDThread.m */; };
 		4F3A862B1797478700EC28B5 /* WCDCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A862A1797478700EC28B5 /* WCDCategory.m */; };
-		4F4642571784AFFF00DF352F /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4642511784AFFF00DF352F /* libzbar.a */; };
 		4F4642581784AFFF00DF352F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4642531784AFFF00DF352F /* zbar-back.png */; };
 		4F4642591784AFFF00DF352F /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F4642541784AFFF00DF352F /* zbar-help.html */; };
 		4F46425A1784AFFF00DF352F /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4642551784AFFF00DF352F /* zbar-helpicons.png */; };
@@ -195,7 +193,6 @@
 		4F91EAC3187F00C300BA443F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F91EAC0187F00C300BA443F /* Default-568h@2x.png */; };
 		4F91EAC4187F00C300BA443F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F91EAC1187F00C300BA443F /* Default.png */; };
 		4F91EAC5187F00C300BA443F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F91EAC2187F00C300BA443F /* Default@2x.png */; };
-		4F91EAC9187F011700BA443F /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F91EAC7187F011700BA443F /* Dropbox.framework */; };
 		4F962524174E9170001542E8 /* MenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F962523174E9170001542E8 /* MenuController.m */; };
 		4F962528174EA5F4001542E8 /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F962527174EA5F4001542E8 /* UIImage+Tools.m */; };
 		4F9AED3317FA422100DD6BE2 /* ProfileStatsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9AED3217FA422100DD6BE2 /* ProfileStatsCell.m */; };
@@ -248,6 +245,7 @@
 		4FFAD9DA17A302F000A41814 /* PaginatorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFAD9D917A302F000A41814 /* PaginatorTableViewController.m */; };
 		4FFAD9DD17A317E000A41814 /* TorrentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFAD9DC17A317E000A41814 /* TorrentsTableViewController.m */; };
 		4FFFA06917F5F3CF00464421 /* WCDPostContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFFA06817F5F3CF00464421 /* WCDPostContent.m */; };
+		5569450C1B5F9520008E8994 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F4642511784AFFF00DF352F /* libzbar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -370,8 +368,6 @@
 		207EF72F17582F4E006755AB /* ProfileRatioCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileRatioCell.m; sourceTree = "<group>"; };
 		207EF731175832F7006755AB /* ProfileAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileAvatarCell.h; sourceTree = "<group>"; };
 		207EF732175832F7006755AB /* ProfileAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileAvatarCell.m; sourceTree = "<group>"; };
-		207F4052176019360031E726 /* Dropbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dropbox.h; path = What/Dropbox.h; sourceTree = "<group>"; };
-		207F4053176019360031E726 /* Dropbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Dropbox.m; path = What/Dropbox.m; sourceTree = "<group>"; };
 		208C359817B1DD4500997E4A /* MenuTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableHeader.h; sourceTree = "<group>"; };
 		208C359917B1DD4500997E4A /* MenuTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableHeader.m; sourceTree = "<group>"; };
 		20947468178CDBFA00989FDE /* ForumTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumTableViewCell.h; sourceTree = "<group>"; };
@@ -750,7 +746,8 @@
 		4FFAD9DC17A317E000A41814 /* TorrentsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentsTableViewController.m; sourceTree = "<group>"; };
 		4FFFA06717F5F3CF00464421 /* WCDPostContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCDPostContent.h; sourceTree = "<group>"; };
 		4FFFA06817F5F3CF00464421 /* WCDPostContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCDPostContent.m; sourceTree = "<group>"; };
-		7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		77151D4BE9B5454B0CADDD67 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A740E4C9AD18FDE57A2D1D45 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -758,6 +755,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5569450C1B5F9520008E8994 /* libzbar.a in Frameworks */,
 				4F0B386A181B0B6300845006 /* libGTLTouchStaticLib.a in Frameworks */,
 				20CF923817680A3C0051AE1A /* MessageUI.framework in Frameworks */,
 				205FE25D17A5629A0038E9CA /* libc++.dylib in Frameworks */,
@@ -768,7 +766,6 @@
 				4FDC0BE1173ADB160023077E /* CoreVideo.framework in Frameworks */,
 				4FDC0BDF173ADB0F0023077E /* CoreMedia.framework in Frameworks */,
 				4FDC0BDD173ADAFE0023077E /* AVFoundation.framework in Frameworks */,
-				4F91EAC9187F011700BA443F /* Dropbox.framework in Frameworks */,
 				4F034C4317301BD9008C3322 /* ImageIO.framework in Frameworks */,
 				4FF581DC172EFC5000D1DA69 /* CoreText.framework in Frameworks */,
 				4FF581CC172EEE7F00D1DA69 /* libxml2.2.dylib in Frameworks */,
@@ -779,7 +776,6 @@
 				4FC1005A17282D02001DCFD1 /* Foundation.framework in Frameworks */,
 				4FC1005C17282D02001DCFD1 /* CoreGraphics.framework in Frameworks */,
 				22E2E7D7B3F84DBAA3FA3D51 /* libPods.a in Frameworks */,
-				4F4642571784AFFF00DF352F /* libzbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,15 +929,6 @@
 				4F91EA98187F00BD00BA443F /* AppIcons */,
 			);
 			name = "App Icons and Launch Images";
-			sourceTree = "<group>";
-		};
-		207F40591760193B0031E726 /* Dropbox */ = {
-			isa = PBXGroup;
-			children = (
-				207F4052176019360031E726 /* Dropbox.h */,
-				207F4053176019360031E726 /* Dropbox.m */,
-			);
-			name = Dropbox;
 			sourceTree = "<group>";
 		};
 		208C359317B1DBAA00997E4A /* Menu and Settings */ = {
@@ -1784,7 +1771,6 @@
 			isa = PBXGroup;
 			children = (
 				4FE3FEEF17610C1B00ABF583 /* Skydrive */,
-				207F40591760193B0031E726 /* Dropbox */,
 				4FA58456175FE51E009C4798 /* Google Drive */,
 			);
 			name = "File Storage Services";
@@ -1831,7 +1817,7 @@
 				4FC100A617283040001DCFD1 /* Third Party Libraries */,
 				4FC1005617282D02001DCFD1 /* Frameworks */,
 				4FC1005517282D02001DCFD1 /* Products */,
-				7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */,
+				D4F81358F786C29F2843F19A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2121,6 +2107,15 @@
 			name = "Browse Torrents";
 			sourceTree = "<group>";
 		};
+		D4F81358F786C29F2843F19A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				77151D4BE9B5454B0CADDD67 /* Pods.debug.xcconfig */,
+				A740E4C9AD18FDE57A2D1D45 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2153,7 +2148,7 @@
 				ORGANIZATIONNAME = What;
 				TargetAttributes = {
 					4FC1005317282D02001DCFD1 = {
-						DevelopmentTeam = C3E3H4N48C;
+						DevelopmentTeam = N47TZXJ6JN;
 					};
 				};
 			};
@@ -2262,7 +2257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AB91705B70AD46C1923117EC /* Check Pods Manifest.lock */ = {
@@ -2330,7 +2325,6 @@
 				207EF73017582F4E006755AB /* ProfileRatioCell.m in Sources */,
 				207EF733175832F7006755AB /* ProfileAvatarCell.m in Sources */,
 				2058ADD4175EB67900566DBE /* UserSingleton.m in Sources */,
-				207F4054176019360031E726 /* Dropbox.m in Sources */,
 				4F6E66C9176222F900B2A55E /* SearchBarTableViewCell.m in Sources */,
 				4F6E66D31762370300B2A55E /* SearchUsersTableViewController.m in Sources */,
 				4F6E66D6176252CE00B2A55E /* SearchCategoryTableViewCell.m in Sources */,
@@ -2497,7 +2491,6 @@
 /* Begin XCBuildConfiguration section */
 		4FC1008317282D03001DCFD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2530,7 +2523,6 @@
 		};
 		4FC1008417282D03001DCFD1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2558,11 +2550,11 @@
 		};
 		4FC1008617282D03001DCFD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */;
+			baseConfigurationReference = 77151D4BE9B5454B0CADDD67 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_NOTICES = NO;
 				ASSETCATALOG_WARNINGS = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2576,10 +2568,13 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "What/WhatCDi-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Third Party Libraries/ZBarSDK\"",
+					"$(PROJECT_DIR)/Third",
+					Party,
+					Libraries/ZBarSDK,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -2597,11 +2592,11 @@
 		};
 		4FC1008717282D03001DCFD1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A4F50C7F0A84772AB99CC73 /* Pods.xcconfig */;
+			baseConfigurationReference = A740E4C9AD18FDE57A2D1D45 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_NOTICES = NO;
 				ASSETCATALOG_WARNINGS = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2615,10 +2610,13 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "What/WhatCDi-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Third Party Libraries/ZBarSDK\"",
+					"$(PROJECT_DIR)/Third",
+					Party,
+					Libraries/ZBarSDK,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

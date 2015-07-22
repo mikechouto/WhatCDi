@@ -1,18 +1,31 @@
-/* Copyright (c) 2013 Dropbox, Inc. All rights reserved. */
+//
+//  DBAccountInfo.h
+//  DropboxSDK
+//
+//  Created by Brian Smith on 5/3/10.
+//  Copyright 2010 Dropbox, Inc. All rights reserved.
+//
 
 
-/** Information about a user's account. */
-@interface DBAccountInfo : NSObject
+#import "DBQuota.h"
 
-/** The recommended string to display to identify an account.
+@interface DBAccountInfo : NSObject <NSCoding> {
+    NSString* email;
+    NSString* country;
+    NSString* displayName;
+    DBQuota* quota;
+    NSString* userId;
+    NSString* referralLink;
+    NSDictionary* original;
+}
 
- This is "userName" if `orgName` is `nil`, otherwise it's "userName (orgName)". */
-@property (nonatomic, readonly) NSString *displayName;
+- (id)initWithDictionary:(NSDictionary*)dict;
 
-/** The user's name. */
-@property (nonatomic, readonly) NSString *userName;
-
-/** The user's organization's name if available, or `nil` otherwise. */
-@property (nonatomic, readonly) NSString *orgName;
+@property (nonatomic, readonly) NSString* email;
+@property (nonatomic, readonly) NSString* country;
+@property (nonatomic, readonly) NSString* displayName;
+@property (nonatomic, readonly) DBQuota* quota;
+@property (nonatomic, readonly) NSString* userId;
+@property (nonatomic, readonly) NSString* referralLink;
 
 @end
